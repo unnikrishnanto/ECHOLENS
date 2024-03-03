@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/pages/controls_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
               onTap: () {
+                navigate(context);
                 setState(() {
                   _color = Color.fromARGB(30, 255, 255, 255);
                   _height = 110;
@@ -40,11 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               child: AnimatedContainer(
-                duration: Duration(seconds: 1),
+                duration: const Duration(milliseconds: 60),
                 width: _width,
                 height: _height,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius:const BorderRadius.all(Radius.circular(50)),
                   color: _color,
                 ),
                 child: Image.asset('assets\\icons\\googles_image.png'),
@@ -58,4 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ))
         ])));
   }
+}
+
+Future<void> navigate(BuildContext context) async {
+  await Future.delayed(const Duration(milliseconds: 60));
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (ctx) => const ControlsPage()));
 }
