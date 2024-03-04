@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontFamily: 'poppins',
               fontWeight: FontWeight.w500,
               color: Colors.white,
+              fontSize: 18,
             ),
           ),
           GestureDetector(
