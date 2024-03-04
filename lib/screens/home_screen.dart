@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart;
 import 'package:main_project/pages/controls_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -67,3 +67,4 @@ Future<void> navigate(BuildContext context) async {
   Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (ctx) => const ControlsPage()));
 }
+
