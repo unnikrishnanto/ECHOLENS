@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:main_project/pages/controls_page.dart';
 
@@ -15,6 +17,47 @@ class _HomeScreenState extends State<HomeScreen> {
   Color _color = Colors.transparent;
   double _height = 100;
   double _width = 100;
+  // for home button animation
+  double _paddingTop = 70;
+  double _paddingBottom = 0;
+  Timer? _timer;
+  Color _color2 = const Color.fromARGB(212, 34, 167, 123);
+  double _radius = 24;
+
+  Future<void> moveHomebutton() async {
+    await Future.delayed(const Duration(milliseconds: 50));
+    setState(() {
+      _color2 = const Color.fromARGB(170, 14, 96, 131);
+      _radius = 25;
+    });
+    _timer = Timer.periodic(const Duration(milliseconds: 2), (timer) {
+      setState(() {
+        if (_paddingTop > 0) {
+          _paddingTop--;
+        } else {
+          _paddingTop = 0;
+          if (_paddingBottom < 40) {
+            _paddingBottom++;
+          } else {
+            _timer!.cancel();
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    moveHomebutton();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,15 +130,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: EdgeInsets.only(
+                          top: _paddingTop, bottom: _paddingBottom),
                       child: AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        child: const CircleAvatar(
+                        duration: const Duration(seconds: 1),
+                        child: CircleAvatar(
                             backgroundColor: Colors.white,
+                            radius: _radius,
                             child: Icon(
                               Icons.home_filled,
                               size: 35,
-                              color: Color.fromARGB(177, 21, 189, 128),
+                              color: _color2,
                             )),
                       ),
                     ),
