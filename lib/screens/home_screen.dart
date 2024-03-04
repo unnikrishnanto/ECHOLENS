@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart;
+import 'package:flutter/material.dart';
 import 'package:main_project/pages/controls_page.dart';
 
 class HomeScreen extends StatefulWidget {
