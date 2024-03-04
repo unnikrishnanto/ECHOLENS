@@ -53,40 +53,6 @@ class _HomePageState extends State<HomePage> {
           const HomeScreen(),
           const ProfilePage()
         ][currentIndex],
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          indicatorColor: Colors.transparent,
-          selectedIndex: currentIndex,
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          onDestinationSelected: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(
-                  Icons.settings_outlined,
-                  size: 40,
-                ),
-                // Image.asset('assets\\icons\\googles_image.png',width: 80,),
-                label: "\n\n\n\n "),
-            NavigationDestination(
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: 40,
-                ),
-                //Image.asset('assets\\icons\\googles_image.png',width: 80,),
-                label: "\n\n\n\n"),
-            NavigationDestination(
-                icon: Icon(
-                  Icons.person_2,
-                  size: 40,
-                ),
-                //Image.asset('assets\\icons\\googles_image.png',width: 80,),
-                label: "\n\n\n\n"),
-          ],
-        ));
+        );
   }
 }
