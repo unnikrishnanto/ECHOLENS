@@ -62,7 +62,7 @@ flutter:
   assets:
     - assets\images\background.jpeg
     - assets\icons\googles_image.png
-
+    - assets\images\controls_background.jpeg
 
 
 
@@ -76,6 +76,13 @@ flutter:
     - family: poppins
       fonts:
         - asset: fonts\Poppins-Medium.ttf
+    - family : courier
+      fonts:
+        - asset : fonts\Courier New Regular.ttf
+    - family : cooper
+      fonts:
+        - asset : fonts\Cooper Bold BT.ttf
+    
 
   #   - family: Trajan Pro
   #     fonts:

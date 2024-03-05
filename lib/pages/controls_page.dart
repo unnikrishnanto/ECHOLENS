@@ -92,14 +92,89 @@ class ControlsBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                color: Color.fromARGB(255, 200, 196, 184),
+                decoration: const BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
+                child: const Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(top: 9, right: 22),
+                        child: Column(
+                          children: [
+                            Text(
+                              "START",
+                              style: TextStyle(
+                                  fontFamily: 'cooper',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16),
+                            ),
+                            Text(
+                              'Transcribe',
+                              style: TextStyle(
+                                fontFamily: 'courier',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 8,
+                              ),
+                            ),
+                          ],
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, top: 12),
+                      child: Icon(
+                        Icons.headset,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
               ),
               Container(
-                color: Color.fromARGB(255, 200, 196, 184),
+                decoration: const BoxDecoration(
+                
+                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
+                child: const Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(top: 9, right: 15),
+                        child: Column(
+                          children: [
+                            Text(
+                              "BATTERY",
+                              style: TextStyle(
+                                  fontFamily: 'cooper',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16),
+                            ),
+                            Text(
+                              'Percentage    ',
+                              style: TextStyle(
+                                fontFamily: 'courier',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 8,
+                              ),
+                            ),
+                          ],
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40, top: 12),
+                      child: Icon(
+                        Icons.headphones_battery,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -111,14 +186,62 @@ class ControlsBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                color: Color.fromARGB(255, 200, 196, 184),
+                decoration: const BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
+                child: const Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(top: 9, right: 12),
+                        child: Text(
+                          "CONTROLS",
+                          style: TextStyle(
+                              fontFamily: 'cooper',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40, top: 20),
+                      child: Icon(
+                        Icons.tune,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
               ),
               Container(
-                color: Color.fromARGB(255, 200, 196, 184),
+                decoration: const BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
+                child: const Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(top: 9, right: 14),
+                        child: Text(
+                          "SIGNAL\nSTRENGTH",
+                          style: TextStyle(
+                              fontFamily: 'cooper',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 13),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40, top: 5),
+                      child: Icon(
+                        Icons.headset,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -150,9 +273,9 @@ class ControlsBody extends StatelessWidget {
               size: 30,
             ),
           ),
-           const Hero(
+          const Hero(
             tag: 'home-button-icon',
-            child:  CircleAvatar(
+            child: CircleAvatar(
                 backgroundColor: Color.fromARGB(0, 255, 255, 255),
                 radius: 24,
                 child: Icon(
