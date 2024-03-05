@@ -64,7 +64,6 @@ class TranscriptorBody extends StatelessWidget {
               Flexible(
                 flex: 80,
                 child: Container(
-                  color: const Color.fromARGB(221, 232, 42, 42),
                   width: 10,
                 ),
               ),

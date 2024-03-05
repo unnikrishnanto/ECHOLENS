@@ -63,6 +63,7 @@ flutter:
     - assets\images\background.jpeg
     - assets\icons\googles_image.png
     - assets\images\controls_background.jpeg
+    - assets\icons\connect_icon.png
 
 
 

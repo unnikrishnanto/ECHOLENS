@@ -14,14 +14,35 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   //variables for connect button
-  Color _color = Colors.transparent;
-  double _height = 100;
-  double _width = 100;
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
   // for home button animation
   double _paddingBottom = 15;
-  double _opacity =1;
+  double _opacity = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _opacityAnimation = TweenSequence(<TweenSequenceItem<double>>[
+      TweenSequenceItem<double>(tween: Tween(begin: 0, end: 1), weight: 50),
+      TweenSequenceItem<double>(tween: Tween(begin: 1, end: 0), weight: 50),
+    ]).animate(_controller);
+    _controller.repeat();
+
+    _controller.addListener(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,29 +72,20 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                   onTap: () {
                     navigate(context);
-                    setState(() {
-                      _color = const Color.fromARGB(30, 255, 255, 255);
-                      _height = 110;
-                      _width = 110;
-                    });
                   },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 60),
-                    width: _width,
-                    height: _height,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      color: _color,
-                    ),
-                    child: Image.asset('assets\\icons\\googles_image.png'),
-                    onEnd: () {
-                      setState(() {
-                        _color = Colors.transparent;
-                        _height = 105;
-                        _height = 105;
-                      });
-                    },
-                  )),
+                  child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (BuildContext context, _) {
+                        return Opacity(
+                          opacity: _opacityAnimation.value,
+                          child: Image.asset(
+                            'assets\\icons\\connect_icon.png',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                        );
+                      })),
               Flexible(
                 flex: 20,
                 child: Container(
