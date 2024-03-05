@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:main_project/pages/controls_page.dart';
+import 'package:main_project/pages/profile_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -25,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   double _radius = 24;
 
   Future<void> moveHomebutton() async {
-    await Future.delayed(const Duration(milliseconds: 50));
     setState(() {
       _color2 = const Color.fromARGB(170, 14, 96, 131);
       _radius = 25;
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _paddingTop--;
         } else {
           _paddingTop = 0;
-          if (_paddingBottom < 40) {
+          if (_paddingBottom < 41) {
             _paddingBottom++;
           } else {
             _timer!.cancel();
@@ -144,12 +144,24 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 70),
-                      child: Icon(
-                        Icons.person_2,
-                        size: 50,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 70),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => const ProfilePage()));
+                        },
+                        child: const Hero(
+                          tag: 'profile-button-icon',
+                          child: CircleAvatar(
+                              backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                              radius: 24,
+                              child: Icon(
+                                Icons.person_2,
+                                size: 40,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              )),
+                        ),
                       ),
                     ),
                   ],

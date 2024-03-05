@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main_project/screens/home_screen.dart';
-import 'package:main_project/screens/profile_page.dart';
-import 'package:main_project/screens/settings.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,11 +47,7 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        body: [
-          const SettingsPage(),
-          const HomeScreen(),
-          const ProfilePage()
-        ][currentIndex],
+        body:const HomeScreen(),
         );
   }
 }
