@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double _height = 100;
   double _width = 100;
   // for home button animation
-  double _paddingBottom = 40;
+  double _paddingBottom = 15;
   double _opacity =1;
   @override
   Widget build(BuildContext context) {
@@ -75,18 +75,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   )),
               Flexible(
-                flex: 25,
+                flex: 20,
                 child: Container(
                   width: 10,
                 ),
               ),
-              Flexible(
-                flex: 20,
+              Expanded(
+                flex: 25,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: const EdgeInsets.only(top: 90),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -105,28 +105,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    Padding(
+                    AnimatedPadding(
+                      duration: const Duration(milliseconds: 240),
                       padding: EdgeInsets.only(top: 0, bottom: _paddingBottom),
-                      child: AnimatedContainer(
-                        duration: const Duration(seconds: 1),
-                        child: Hero(
-                          tag: 'home-button-icon',
-                          child: Opacity(
-                            opacity: _opacity,
-                            child: const CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 25,
-                                child: Icon(
-                                  Icons.home_filled,
-                                  size: 35,
-                                  color:  Color.fromARGB(212, 34, 167, 123),
-                                )),
-                          ),
+                      child: Hero(
+                        tag: 'home-button-icon',
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 240),
+                          opacity: _opacity,
+                          child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 25,
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 35,
+                                color: Color.fromARGB(212, 34, 167, 123),
+                              )),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: const EdgeInsets.only(top: 90),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -154,9 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> navigate(BuildContext context) async {
     setState(() {
       _paddingBottom = 100;
-      _opacity = 0.1;
+      _opacity = 0;
     });
-    await Future.delayed(const Duration(milliseconds: 10), () {
+    await Future.delayed(const Duration(milliseconds: 200), () {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => const ControlsPage()));
     });
