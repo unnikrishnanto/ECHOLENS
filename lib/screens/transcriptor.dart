@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/screens/transcriptor.dart';
+import 'package:main_project/pages/profile_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class TranscriptorPage extends StatelessWidget {
+  const TranscriptorPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +40,18 @@ class ProfilePage extends StatelessWidget {
           )
         ],
       ),
-      body: const ProfileBody(),
+      body:  const TranscriptorBody(),
     );
   }
 }
 
-class ProfileBody extends StatelessWidget {
-  const ProfileBody({
+class TranscriptorBody extends StatelessWidget {
+  const TranscriptorBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -73,24 +73,18 @@ class ProfileBody extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => const TranscriptorPage()));
-                        },
-                        child: const Hero(
-                          tag: 'transcriptor-button-icon',
-                          child: CircleAvatar(
-                                  backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                                  radius: 24,
-                                  child: Icon(
-                                    Icons.message,
-                                    size: 30,
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                  )),
-                        ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 0,bottom: 40),
+                      child: Hero(
+                        tag: 'transcriptor-button-icon',
+                        child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 24,
+                              child: Icon(
+                                Icons.message,
+                                size: 30,
+                                color: Color.fromARGB(170, 14, 96, 131),
+                              )),
                       ),
                     ),
                     Padding(
@@ -115,18 +109,24 @@ class ProfileBody extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 0, bottom: 40),
-                      child: Hero(
-                        tag: 'profile-button-icon',
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 24,
-                            child: Icon(
-                              Icons.person_2,
-                              size: 35,
-                              color: Color.fromARGB(170, 14, 96, 131),
-                            )),
+                     Padding(
+                      padding: const EdgeInsets.only(top: 70),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => const ProfilePage()));
+                        },
+                        child: const Hero(
+                          tag: 'profile-button-icon',
+                          child: CircleAvatar(
+                              backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                              radius: 24,
+                              child: Icon(
+                                Icons.person_2,
+                                size: 40,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              )),
+                        ),
                       ),
                     ),
                   ],
