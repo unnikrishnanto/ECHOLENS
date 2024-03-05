@@ -20,45 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   double _height = 100;
   double _width = 100;
   // for home button animation
-  double _paddingTop = 70;
-  double _paddingBottom = 0;
-  Timer? _timer;
-  Color _color2 = const Color.fromARGB(212, 34, 167, 123);
-  double _radius = 24;
-
-void moveHomebutton(){
-    setState(() {
-      _color2 = const Color.fromARGB(170, 14, 96, 131);
-      _radius = 25;
-    });
-    _timer = Timer.periodic(const Duration(milliseconds: 2), (timer) {
-      setState(() {
-        if (_paddingTop > 0) {
-          _paddingTop--;
-        } else {
-          _paddingTop = 0;
-          if (_paddingBottom < 41) {
-            _paddingBottom++;
-          } else {
-            _timer!.cancel();
-          }
-        }
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    moveHomebutton();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer!.cancel();
-    super.dispose();
-  }
-
+  double _paddingBottom = 40;
+  double _opacity =1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -122,7 +85,7 @@ void moveHomebutton(){
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 70),
                       child: GestureDetector(
                         onTap: () {
@@ -132,29 +95,34 @@ void moveHomebutton(){
                         child: const Hero(
                           tag: 'transcriptor-button-icon',
                           child: CircleAvatar(
-                                  backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                                  radius: 24,
-                                  child: Icon(
-                                    Icons.message,
-                                    size: 30,
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                  )),
+                              backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                              radius: 24,
+                              child: Icon(
+                                Icons.message,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              )),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: _paddingTop, bottom: _paddingBottom),
+                      padding: EdgeInsets.only(top: 0, bottom: _paddingBottom),
                       child: AnimatedContainer(
                         duration: const Duration(seconds: 1),
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: _radius,
-                            child: Icon(
-                              Icons.home_filled,
-                              size: 35,
-                              color: _color2,
-                            )),
+                        child: Hero(
+                          tag: 'home-button-icon',
+                          child: Opacity(
+                            opacity: _opacity,
+                            child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 25,
+                                child: Icon(
+                                  Icons.home_filled,
+                                  size: 35,
+                                  color:  Color.fromARGB(212, 34, 167, 123),
+                                )),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -182,10 +150,15 @@ void moveHomebutton(){
               )
             ])));
   }
-}
 
-Future<void> navigate(BuildContext context) async {
-  await Future.delayed(const Duration(milliseconds: 60));
-  Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (ctx) => const ControlsPage()));
+  Future<void> navigate(BuildContext context) async {
+    setState(() {
+      _paddingBottom = 100;
+      _opacity = 0.1;
+    });
+    await Future.delayed(const Duration(milliseconds: 10), () {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => const ControlsPage()));
+    });
+  }
 }

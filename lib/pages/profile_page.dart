@@ -97,14 +97,14 @@ class ProfileBody extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         top: 70,
                       ),
-                      child: AnimatedContainer(
-                        duration: const Duration(seconds: 1),
-                        child: GestureDetector(
-                          onTap: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (ctx) =>const HomePage()));
-                        },
-                          child:const CircleAvatar(
+                      child: GestureDetector(
+                        onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (ctx) =>const HomePage()));
+                      },
+                        child:const Hero(
+                          tag: 'home-button-icon',
+                          child: CircleAvatar(
                               backgroundColor: Color.fromARGB(0, 14, 96, 131),
                               radius: 24,
                               child: Icon(

@@ -45,12 +45,6 @@ class ControlsPage extends StatelessWidget {
         ],
       ),
       body: const ControlsBody(),
-      floatingActionButton: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (ctx) => const HomePage()));
-          },
-          icon: const Icon(Icons.logout_sharp)),
     );
   }
 }
@@ -68,69 +62,106 @@ class ControlsBody extends StatelessWidget {
         image: AssetImage('assets\\images\\background.jpeg'),
         fit: BoxFit.fill,
       )),
-      child: Container(
-        color: Color.fromARGB(255, 3, 6, 8),
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 100, top: 10),
-              child: Text(
-                "Connection Sucecssful ",
-                style: TextStyle(
-                  color: Color.fromARGB(252, 255, 255, 255),
-                  fontFamily: 'poppins',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 100, top: 10),
+            child: Text(
+              "Connection Sucecssful ",
+              style: TextStyle(
+                color: Color.fromARGB(252, 255, 255, 255),
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 80, bottom: 20),
-              child: Text(
-                "with $devicename",
-                style: const TextStyle(
-                  color: Color.fromARGB(252, 255, 255, 255),
-                  fontFamily: 'poppins',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 80, bottom: 40),
+            child: Text(
+              "with $devicename",
+              style: const TextStyle(
+                color: Color.fromARGB(252, 255, 255, 255),
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  color: Color.fromARGB(255, 200, 196, 184),
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Color.fromARGB(255, 200, 196, 184),
-                  width: 100,
-                  height: 100,
-                ),
-              ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                color: Color.fromARGB(255, 200, 196, 184),
+                width: 100,
+                height: 100,
+              ),
+              Container(
+                color: Color.fromARGB(255, 200, 196, 184),
+                width: 100,
+                height: 100,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 10,
+            height: 40,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                color: Color.fromARGB(255, 200, 196, 184),
+                width: 100,
+                height: 100,
+              ),
+              Container(
+                color: Color.fromARGB(255, 200, 196, 184),
+                width: 100,
+                height: 100,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 10,
+            height: 50,
+          ),
+          const Text(
+            "Tap to disconnect ",
+            style: TextStyle(
+              color: Color.fromARGB(252, 255, 255, 255),
+              fontFamily: 'poppins',
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
-            const SizedBox(
-              height: 20,
+          ),
+          const SizedBox(
+            width: 10,
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (ctx) => const HomePage()));
+            },
+            child: const Icon(
+              Icons.power_settings_new_rounded,
+              color: Colors.white,
+              size: 30,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  color: Color.fromARGB(255, 200, 196, 184),
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Color.fromARGB(255, 200, 196, 184),
-                  width: 100,
-                  height: 100,
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+           const Hero(
+            tag: 'home-button-icon',
+            child:  CircleAvatar(
+                backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                radius: 24,
+                child: Icon(
+                  Icons.home_filled,
+                  size: 35,
+                  color: Color.fromARGB(0, 14, 96, 131),
+                )),
+          ),
+        ],
       ),
     );
   }
