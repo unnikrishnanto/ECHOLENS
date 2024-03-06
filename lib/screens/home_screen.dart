@@ -60,6 +60,22 @@ class _HomeScreenState extends State<HomeScreen>
                   width: 10,
                 ),
               ),
+              GestureDetector(
+                  onTap: () {
+                    navigate(context);
+                  },
+                  child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (BuildContext context, _) {
+                        return Opacity(
+                            opacity: _opacityAnimation.value,
+                            child: Image.asset(
+                              'assets\\icons\\connect_icon.png',
+                              width: 70,
+                              height: 70,
+                              fit: BoxFit.fill,
+                            ));
+                      })),
               const Text(
                 "Tap to connect",
                 style: TextStyle(
@@ -69,23 +85,6 @@ class _HomeScreenState extends State<HomeScreen>
                   fontSize: 18,
                 ),
               ),
-              GestureDetector(
-                  onTap: () {
-                    navigate(context);
-                  },
-                  child: AnimatedBuilder(
-                      animation: _controller,
-                      builder: (BuildContext context, _) {
-                        return Opacity(
-                          opacity: _opacityAnimation.value,
-                          child: Image.asset(
-                            'assets\\icons\\connect_icon.png',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                        );
-                      })),
               Flexible(
                 flex: 20,
                 child: Container(
