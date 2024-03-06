@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:main_project/pages/home_page.dart';
 
 String? devicename = '********';
@@ -49,11 +50,17 @@ class ControlsPage extends StatelessWidget {
   }
 }
 
-class ControlsBody extends StatelessWidget {
+class ControlsBody extends StatefulWidget {
   const ControlsBody({
     super.key,
   });
 
+  @override
+  State<ControlsBody> createState() => _ControlsBodyState();
+}
+
+class _ControlsBodyState extends State<ControlsBody> {
+  bool _isStarted = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,52 +98,72 @@ class ControlsBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 100,
-                height: 100,
-                child: const Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(top: 9, right: 22),
-                        child: Column(
-                          children: [
-                            Text(
-                              "START",
-                              style: TextStyle(
-                                  fontFamily: 'cooper',
+              GestureDetector(
+                onDoubleTap: () {
+                  setState(() {
+                    _isStarted = true;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets\\images\\controls_background.jpeg')),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  width: 100,
+                  height: 100,
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 9, right: 22),
+                          child: Column(
+                            children: [
+                              _isStarted
+                                  ? Text(
+                                      "STOP",
+                                      style: TextStyle(
+                                          fontFamily: 'cooper',
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 16),
+                                    )
+                                  : Text(
+                                      "START",
+                                      style: TextStyle(
+                                          fontFamily: 'cooper',
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 16),
+                                    ),
+                              Text(
+                                'Transcribe',
+                                style: TextStyle(
+                                  fontFamily: 'courier',
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16),
-                            ),
-                            Text(
-                              'Transcribe',
-                              style: TextStyle(
-                                fontFamily: 'courier',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 8,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 8,
+                                ),
                               ),
-                            ),
-                          ],
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30, top: 12),
-                      child: Icon(
-                        Icons.headset,
-                        size: 38,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                            ],
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(left: 30, top: 12),
+                        child: Icon(
+                          Icons.headset_off,
+                          size: 38,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Container(
                 decoration: const BoxDecoration(
-                
-                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets\\images\\controls_background.jpeg')),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
@@ -187,7 +214,9 @@ class ControlsBody extends StatelessWidget {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets\\images\\controls_background.jpeg')),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
@@ -216,7 +245,9 @@ class ControlsBody extends StatelessWidget {
               ),
               Container(
                 decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets\\images\\controls_background.jpeg')),
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets\\images\\controls_background.jpeg')),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 width: 100,
                 height: 100,
@@ -235,7 +266,7 @@ class ControlsBody extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 40, top: 5),
                       child: Icon(
-                        Icons.headset,
+                        Icons.signal_cellular_alt,
                         size: 38,
                         color: Colors.white,
                       ),
