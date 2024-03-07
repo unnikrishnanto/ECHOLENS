@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/screens/transcriptor.dart';
 
@@ -8,7 +9,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Container(
           padding: const EdgeInsets.only(top: 7),
@@ -53,7 +54,8 @@ class ProfilePage extends StatelessWidget {
             color: Colors.white,
           )
         ],
-      ),body: const ProfileBody(),
+      ),
+      body: const ProfileBody(),
     );
   }
 }
@@ -76,8 +78,71 @@ class ProfileBody extends StatelessWidget {
                 children: [
               Flexible(
                 flex: 80,
-                child: Container(
-                  width: 10,
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 30, bottom: 30, right: 150),
+                      child: Text(
+                        "SAVED LECTURES",
+                        style: TextStyle(
+                          fontFamily: 'canvas',
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 100),
+                      child: Container(
+                        width: 280,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            border: const GradientBoxBorder(
+                              gradient: LinearGradient(colors: [
+                                Color.fromARGB(227, 179, 22, 166),
+                                Color.fromARGB(255, 28, 216, 233)
+                              ]),
+                              width: 5,
+                            ),
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(25)),
+                        padding: const EdgeInsets.all(12.0),
+                        child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                  leading: Text(
+                                    "${index + 1}",
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(250, 246, 246, 246),
+                                      fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    "Lectrure ${index + 1}",
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(250, 246, 246, 246),
+                                      fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )
+                                  //   trailing: Row(
+                                  //     children: [
+                                  //       ElevatedButton(
+                                  //           onPressed: () {}, child: const Text("VIEW")),
+                                  //       ElevatedButton.icon(
+                                  //           onPressed: () {},
+                                  //           icon:const Icon(Icons.delete),
+                                  //           label: const Text("DELETE"))
+                                  //   ],
+                                  // ),
+                                  );
+                            },
+                            separatorBuilder: (ctx, index) => const Divider(),
+                            itemCount: 3),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Flexible(
