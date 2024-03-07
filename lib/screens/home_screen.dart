@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:main_project/pages/controls_page.dart';
-import 'package:main_project/pages/profile_page.dart';
+import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/transcriptor.dart';
 
 class HomeScreen extends StatefulWidget {

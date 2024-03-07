@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/pages/profile_page.dart';
+import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
 
 String resultText =

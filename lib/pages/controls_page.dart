@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:main_project/pages/home_page.dart';
+import 'package:main_project/pages/lectures_page.dart';
+import 'package:main_project/screens/expanded_text.dart';
 
 String? devicename = '********';
 
@@ -10,7 +12,7 @@ class ControlsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Container(
           padding: const EdgeInsets.only(top: 7),
@@ -55,7 +57,8 @@ class ControlsPage extends StatelessWidget {
             color: Colors.white,
           )
         ],
-      ),body: const ControlsBody(),
+      ),
+      body: const ControlsBody(),
     );
   }
 }
@@ -320,17 +323,65 @@ class _ControlsBodyState extends State<ControlsBody> {
                 color: Colors.white,
                 size: 40,
               )),
-           const Hero(
-            tag: 'home-button-icon',
-            child: CircleAvatar(
-                backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                radius: 24,
-                child: Icon(
-                  Icons.home_filled,
-                  size: 35,
-                  color: Color.fromARGB(0, 14, 96, 131),
-                )),
-          ),
+          Expanded(
+            flex: 25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 90),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => const ExpandedText()));
+                    },
+                    child: const Hero(
+                      tag: 'transcriptor-button-icon',
+                      child: CircleAvatar(
+                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                          radius: 24,
+                          child: Icon(
+                            Icons.phone_iphone_outlined,
+                            size: 40,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          )),
+                    ),
+                  ),
+                ),
+                const Hero(
+                  tag: 'home-button-icon',
+                  child: CircleAvatar(
+                      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                      radius: 24,
+                      child: Icon(
+                        Icons.home_filled,
+                        size: 35,
+                        color: Color.fromARGB(0, 14, 96, 131),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 90),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                    },
+                    child: const Hero(
+                      tag: 'profile-button-icon',
+                      child: CircleAvatar(
+                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                          radius: 24,
+                          child: Icon(
+                            Icons.menu_book,
+                            size: 40,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          )),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
