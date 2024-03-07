@@ -8,17 +8,31 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+          appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Container(
+          padding: const EdgeInsets.only(top: 7),
           margin:
               const EdgeInsets.only(left: 10, right: 0, top: 15, bottom: 15),
           decoration: const BoxDecoration(
             color: Colors.black,
           ),
-          child: Image.asset(
-            'assets\\icons\\googles_image.png',
-            fit: BoxFit.contain,
+          child: Stack(
+            children: [
+              Image.asset(
+                'assets\\icons\\googles_image.png',
+                fit: BoxFit.contain,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 1),
+                child: Image.asset(
+                  'assets\\icons\\googles_bar.jpg',
+                  width: 12,
+                  height: 5,
+                  fit: BoxFit.contain,
+                ),
+              )
+            ],
           ),
         ),
         title: const Text(
@@ -39,8 +53,7 @@ class ProfilePage extends StatelessWidget {
             color: Colors.white,
           )
         ],
-      ),
-      body: const ProfileBody(),
+      ),body: const ProfileBody(),
     );
   }
 }
@@ -72,7 +85,7 @@ class ProfileBody extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 70),
                       child: GestureDetector(
                         onTap: () {
@@ -82,13 +95,13 @@ class ProfileBody extends StatelessWidget {
                         child: const Hero(
                           tag: 'transcriptor-button-icon',
                           child: CircleAvatar(
-                                  backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                                  radius: 24,
-                                  child: Icon(
-                                    Icons.message,
-                                    size: 30,
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                  )),
+                              backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                              radius: 24,
+                              child: Icon(
+                                Icons.message,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              )),
                         ),
                       ),
                     ),
@@ -98,10 +111,11 @@ class ProfileBody extends StatelessWidget {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (ctx) =>const HomePage()));
-                      },
-                        child:const Hero(
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (ctx) => const HomePage()));
+                        },
+                        child: const Hero(
                           tag: 'home-button-icon',
                           child: CircleAvatar(
                               backgroundColor: Color.fromARGB(0, 14, 96, 131),
@@ -122,7 +136,7 @@ class ProfileBody extends StatelessWidget {
                             backgroundColor: Colors.white,
                             radius: 24,
                             child: Icon(
-                              Icons.person_2,
+                              Icons.menu_book,
                               size: 35,
                               color: Color.fromARGB(170, 14, 96, 131),
                             )),

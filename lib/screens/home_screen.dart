@@ -109,8 +109,8 @@ class _HomeScreenState extends State<HomeScreen>
                               backgroundColor: Color.fromARGB(0, 255, 255, 255),
                               radius: 24,
                               child: Icon(
-                                Icons.message,
-                                size: 30,
+                                Icons.phone_iphone_outlined,
+                                size: 40,
                                 color: Color.fromARGB(255, 255, 255, 255),
                               )),
                         ),
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen>
                               backgroundColor: Color.fromARGB(0, 255, 255, 255),
                               radius: 24,
                               child: Icon(
-                                Icons.person_2,
+                                Icons.menu_book,
                                 size: 40,
                                 color: Color.fromARGB(255, 255, 255, 255),
                               )),

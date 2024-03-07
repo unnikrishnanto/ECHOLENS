@@ -10,20 +10,31 @@ class ControlsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+         appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Container(
+          padding: const EdgeInsets.only(top: 7),
           margin:
               const EdgeInsets.only(left: 10, right: 0, top: 15, bottom: 15),
           decoration: const BoxDecoration(
             color: Colors.black,
           ),
-          child: Hero(
-            tag: "goggles",
-            child: Image.asset(
-              'assets\\icons\\googles_image.png',
-              fit: BoxFit.contain,
-            ),
+          child: Stack(
+            children: [
+              Image.asset(
+                'assets\\icons\\googles_image.png',
+                fit: BoxFit.contain,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 1),
+                child: Image.asset(
+                  'assets\\icons\\googles_bar.jpg',
+                  width: 12,
+                  height: 5,
+                  fit: BoxFit.contain,
+                ),
+              )
+            ],
           ),
         ),
         title: const Text(
@@ -44,8 +55,7 @@ class ControlsPage extends StatelessWidget {
             color: Colors.white,
           )
         ],
-      ),
-      body: const ControlsBody(),
+      ),body: const ControlsBody(),
     );
   }
 }
@@ -150,12 +160,12 @@ class _ControlsBodyState extends State<ControlsBody> {
                         padding: const EdgeInsets.only(left: 30, top: 12),
                         child: _isStarted
                             ? const Icon(
-                                Icons.headset_off,
+                                Icons.stop_circle,
                                 size: 38,
                                 color: Colors.white,
                               )
                             : const Icon(
-                                Icons.headset_rounded,
+                                Icons.play_circle_fill,
                                 size: 38,
                                 color: Colors.white,
                               ),
@@ -230,7 +240,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                     Padding(
                         padding: EdgeInsets.only(top: 9),
                         child: Text(
-                          "CONTROLS",
+                          "SAVE\nLECTURE",
                           style: TextStyle(
                               fontFamily: 'cooper',
                               color: Colors.white,
@@ -238,9 +248,11 @@ class _ControlsBodyState extends State<ControlsBody> {
                               fontSize: 14),
                         )),
                     Padding(
-                      padding: EdgeInsets.only(left: 40, top: 20),
+                      padding: EdgeInsets.only(
+                        left: 40,
+                      ),
                       child: Icon(
-                        Icons.tune,
+                        Icons.post_add_outlined,
                         size: 38,
                         color: Colors.white,
                       ),
@@ -299,17 +311,16 @@ class _ControlsBodyState extends State<ControlsBody> {
             height: 10,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => const HomePage()));
-            },
-            child: const Icon(
-              Icons.power_settings_new_rounded,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
-          const Hero(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (ctx) => const HomePage()));
+              },
+              child: const Icon(
+                Icons.link_off_outlined,
+                color: Colors.white,
+                size: 40,
+              )),
+           const Hero(
             tag: 'home-button-icon',
             child: CircleAvatar(
                 backgroundColor: Color.fromARGB(0, 255, 255, 255),

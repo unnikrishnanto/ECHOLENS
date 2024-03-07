@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/profile_page.dart';
+import 'package:main_project/screens/expanded_text.dart';
 
 String resultText =
-    "This is the transcripted text.Which will be displayed continuously in real time as the microphone records the audio.\n this diaplaybox can be scrolled\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line";
+    "This is the transcripted text.Which will be displayed continuously in real time as the microphone records the audio.\n this diaplaybox can be scrolled\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line";
 
 class TranscriptorPage extends StatelessWidget {
   const TranscriptorPage({super.key});
@@ -15,14 +18,28 @@ class TranscriptorPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Container(
+          padding: const EdgeInsets.only(top: 7),
           margin:
               const EdgeInsets.only(left: 10, right: 0, top: 15, bottom: 15),
           decoration: const BoxDecoration(
             color: Colors.black,
           ),
-          child: Image.asset(
-            'assets\\icons\\googles_image.png',
-            fit: BoxFit.contain,
+          child: Stack(
+            children: [
+              Image.asset(
+                'assets\\icons\\googles_image.png',
+                fit: BoxFit.contain,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 1),
+                child: Image.asset(
+                  'assets\\icons\\googles_bar.jpg',
+                  width: 12,
+                  height: 5,
+                  fit: BoxFit.contain,
+                ),
+              )
+            ],
           ),
         ),
         title: const Text(
@@ -80,35 +97,37 @@ class TranscriptorBody extends StatelessWidget {
                 Container(
                   height: 50,
                   width: 200,
-                  color: Colors.white,
                   child: Row(
                     children: [
-                      Stack(
-                        alignment: AlignmentDirectional.center,
+                      const Stack(
+                        alignment: Alignment.center,
                         children: [
-                          Image.asset(
-                            'assets\\icons\\mobile_phone_icon.png',
-                            height: 45,
-                            width: 45,
+                          Icon(
+                            Icons.phone_android_outlined,
+                            size: 40,
+                            color: Color.fromARGB(255, 255, 255, 255),
                           ),
-                          Image.asset(
-                            'assets\\icons\\microphone-icon.png',
-                            width: 26,
-                            height: 28,
-                          ),
+                          Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Icon(
+                              Icons.mic_none_outlined,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              size: 20,
+                            ),
+                          )
                         ],
                       ),
                       // ignore: sized_box_for_whitespace
                       Container(
                           width: 100,
                           height: 48,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Image.asset(
-                              'assets\\icons\\arrow-icons-black.png',
-                              fit: BoxFit.fill,
-                            ),
-                          )),
+                          child: const Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.arrow_right_alt_outlined,
+                                size: 40,
+                                color: Colors.white,
+                              ))),
                       Image.asset(
                         'assets/icons/cc_icon.png',
                         height: 45,
@@ -117,29 +136,35 @@ class TranscriptorBody extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: Container(
-                    width: 280,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        border: const GradientBoxBorder(
-                          gradient: LinearGradient(colors: [
-                            Color.fromARGB(227, 179, 22, 166),
-                            Color.fromARGB(255, 28, 216, 233)
-                          ]),
-                          width: 5,
+                GestureDetector(
+                  onDoubleTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ExpandedText()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 100),
+                    child: Container(
+                      width: 280,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          border: const GradientBoxBorder(
+                            gradient: LinearGradient(colors: [
+                              Color.fromARGB(227, 179, 22, 166),
+                              Color.fromARGB(255, 28, 216, 233)
+                            ]),
+                            width: 5,
+                          ),
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          borderRadius: BorderRadius.circular(25)),
+                      padding: const EdgeInsets.all(12.0),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          resultText,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'courier',
+                              fontWeight: FontWeight.w900),
                         ),
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        borderRadius: BorderRadius.circular(25)),
-                    padding: const EdgeInsets.all(12.0),
-                    child: SingleChildScrollView(
-                      child: Text(
-                        resultText,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'courier',
-                            fontWeight: FontWeight.w900),
                       ),
                     ),
                   ),
@@ -159,10 +184,23 @@ class TranscriptorBody extends StatelessWidget {
                     child: CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 24,
-                        child: Icon(
-                          Icons.message,
-                          size: 30,
-                          color: Color.fromARGB(170, 14, 96, 131),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              Icons.phone_android_outlined,
+                              size: 35,
+                              color: Color.fromARGB(170, 14, 96, 131),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(0),
+                              child: Icon(
+                                Icons.mic_none_outlined,
+                                color: Color.fromARGB(177, 41, 95, 113),
+                                size: 20,
+                              ),
+                            )
+                          ],
                         )),
                   ),
                 ),
@@ -201,7 +239,7 @@ class TranscriptorBody extends StatelessWidget {
                           backgroundColor: Color.fromARGB(0, 255, 255, 255),
                           radius: 24,
                           child: Icon(
-                            Icons.person_2,
+                            Icons.menu_book,
                             size: 40,
                             color: Color.fromARGB(255, 255, 255, 255),
                           )),
