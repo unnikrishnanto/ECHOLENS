@@ -99,13 +99,12 @@ class _ControlsBodyState extends State<ControlsBody> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onDoubleTap: () {
+                onTap: () {
                   setState(() {
-                    _isStarted = true;
+                    _isStarted = !_isStarted;
                   });
                 },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
+                child: Container(
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
@@ -116,11 +115,11 @@ class _ControlsBodyState extends State<ControlsBody> {
                   child: Column(
                     children: [
                       Padding(
-                          padding: EdgeInsets.only(top: 9, right: 22),
+                          padding: const EdgeInsets.only(top: 9, right: 22),
                           child: Column(
                             children: [
                               _isStarted
-                                  ? Text(
+                                  ? const Text(
                                       "STOP",
                                       style: TextStyle(
                                           fontFamily: 'cooper',
@@ -128,7 +127,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                                           fontWeight: FontWeight.w900,
                                           fontSize: 16),
                                     )
-                                  : Text(
+                                  : const Text(
                                       "START",
                                       style: TextStyle(
                                           fontFamily: 'cooper',
@@ -136,7 +135,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                                           fontWeight: FontWeight.w900,
                                           fontSize: 16),
                                     ),
-                              Text(
+                              const Text(
                                 'Transcribe',
                                 style: TextStyle(
                                   fontFamily: 'courier',
@@ -148,12 +147,18 @@ class _ControlsBodyState extends State<ControlsBody> {
                             ],
                           )),
                       Padding(
-                        padding: EdgeInsets.only(left: 30, top: 12),
-                        child: Icon(
-                          Icons.headset_off,
-                          size: 38,
-                          color: Colors.white,
-                        ),
+                        padding: const EdgeInsets.only(left: 30, top: 12),
+                        child: _isStarted
+                            ? const Icon(
+                                Icons.headset_off,
+                                size: 38,
+                                color: Colors.white,
+                              )
+                            : const Icon(
+                                Icons.headset_rounded,
+                                size: 38,
+                                color: Colors.white,
+                              ),
                       )
                     ],
                   ),
@@ -170,7 +175,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                 child: const Column(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(top: 9, right: 15),
+                        padding: EdgeInsets.only(top: 9, right: 5),
                         child: Column(
                           children: [
                             Text(
@@ -195,7 +200,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                     Padding(
                       padding: EdgeInsets.only(left: 40, top: 12),
                       child: Icon(
-                        Icons.headphones_battery,
+                        Icons.battery_5_bar_outlined,
                         size: 38,
                         color: Colors.white,
                       ),
@@ -223,7 +228,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                 child: const Column(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(top: 9, right: 12),
+                        padding: EdgeInsets.only(top: 9),
                         child: Text(
                           "CONTROLS",
                           style: TextStyle(
@@ -254,7 +259,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                 child: const Column(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(top: 9, right: 14),
+                        padding: EdgeInsets.only(top: 9),
                         child: Text(
                           "SIGNAL\nSTRENGTH",
                           style: TextStyle(
