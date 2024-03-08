@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
@@ -94,6 +92,7 @@ class TranscriptorBody extends StatelessWidget {
                     ),
                   ),
                 ),
+                // ignore: sized_box_for_whitespace
                 Container(
                   height: 50,
                   width: 200,

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/screens/transcriptor.dart';
 
@@ -22,13 +20,13 @@ class _ExpandedTextState extends State<ExpandedText> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => const TranscriptorPage()));
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_outlined,
               size: 40,
               color: Colors.white,
             ),
           ),
-          title: Text(
+          title: const Text(
             "Expanded",
             style: TextStyle(
               color: Color.fromARGB(250, 246, 246, 246),
