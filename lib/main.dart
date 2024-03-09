@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_project/pages/home_page.dart';
 
+bool isConnected = false;
 void main() {
   runApp(const MyApp());
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/screens/transcriptor.dart';
+import 'package:main_project/pages/transcriptor_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,71 +209,88 @@ class ProfileBody extends StatelessWidget {
                   ],
                 ),
               ),
+// NAvigation bar
               Flexible(
-                flex: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 70),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => const TranscriptorPage()));
-                        },
-                        child: const Hero(
-                          tag: 'transcriptor-button-icon',
-                          child: CircleAvatar(
-                              backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                              radius: 24,
-                              child: Icon(
-                                Icons.phone_iphone_outlined,
-                                size: 40,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                              )),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 70,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (ctx) => const HomePage()));
-                        },
-                        child: const Hero(
-                          tag: 'home-button-icon',
-                          child: CircleAvatar(
-                              backgroundColor: Color.fromARGB(0, 14, 96, 131),
-                              radius: 24,
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 38,
-                                color: Colors.white,
-                              )),
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 0, bottom: 40),
-                      child: Hero(
-                        tag: 'profile-button-icon',
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 24,
-                            child: Icon(
-                              Icons.menu_book,
-                              size: 35,
-                              color: Color.fromARGB(170, 14, 96, 131),
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-              )
+                  flex: 20,
+                  child: !isConnected //checking weather status is falae
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 70),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          const TranscriptorPage()));
+                                },
+                                child: const Hero(
+                                  tag: 'transcriptor-button-icon',
+                                  child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromARGB(0, 255, 255, 255),
+                                      radius: 24,
+                                      child: Icon(
+                                        Icons.phone_iphone_outlined,
+                                        size: 40,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      )),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 70,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (ctx) => const HomePage()));
+                                },
+                                child: const Hero(
+                                  tag: 'home-button-icon',
+                                  child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromARGB(0, 14, 96, 131),
+                                      radius: 24,
+                                      child: Icon(
+                                        Icons.home_filled,
+                                        size: 38,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 0, bottom: 40),
+                              child: Hero(
+                                tag: 'profile-button-icon',
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 24,
+                                    child: Icon(
+                                      Icons.menu_book,
+                                      size: 35,
+                                      color: Color.fromARGB(170, 14, 96, 131),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        )
+
+                      ://if Status is true 
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ))
             ])));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:main_project/screens/transcriptor.dart';
+import 'package:main_project/pages/transcriptor_page.dart';
 
 class ExpandedText extends StatefulWidget {
   const ExpandedText({super.key});
@@ -17,8 +17,7 @@ class _ExpandedTextState extends State<ExpandedText> {
           backgroundColor: Colors.black,
           leading: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const TranscriptorPage()));
+              Navigator.of(context).pop();
             },
             child: const Icon(
               Icons.arrow_back_outlined,
@@ -37,8 +36,7 @@ class _ExpandedTextState extends State<ExpandedText> {
         ),
         body: GestureDetector(
           onDoubleTap: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const TranscriptorPage()));
+            Navigator.of(context).pop();
           },
           child: Container(
               decoration: const BoxDecoration(

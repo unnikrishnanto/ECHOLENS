@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
@@ -314,8 +315,7 @@ class _ControlsBodyState extends State<ControlsBody> {
           ),
           GestureDetector(
               onTap: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (ctx) => const HomePage()));
+                disconnect(context);
               },
               child: const Icon(
                 Icons.link_off_outlined,
@@ -334,17 +334,14 @@ class _ControlsBodyState extends State<ControlsBody> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => const ExpandedText()));
                     },
-                    child: const Hero(
-                      tag: 'transcriptor-button-icon',
-                      child: CircleAvatar(
-                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                          radius: 24,
-                          child: Icon(
-                            Icons.phone_iphone_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          )),
-                    ),
+                    child: const CircleAvatar(
+                        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                        radius: 24,
+                        child: Icon(
+                          Icons.phone_iphone_outlined,
+                          size: 40,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )),
                   ),
                 ),
                 const Hero(
@@ -362,20 +359,17 @@ class _ControlsBodyState extends State<ControlsBody> {
                   padding: const EdgeInsets.only(top: 90),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const ProfilePage()));
                     },
-                    child: const Hero(
-                      tag: 'profile-button-icon',
-                      child: CircleAvatar(
-                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                          radius: 24,
-                          child: Icon(
-                            Icons.menu_book,
-                            size: 40,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          )),
-                    ),
+                    child: const CircleAvatar(
+                        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                        radius: 24,
+                        child: Icon(
+                          Icons.menu_book,
+                          size: 40,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        )),
                   ),
                 ),
               ],
@@ -383,6 +377,13 @@ class _ControlsBodyState extends State<ControlsBody> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> disconnect(BuildContext context) async {
+    isConnected = false;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (ctx) => const HomePage()),
     );
   }
 }
