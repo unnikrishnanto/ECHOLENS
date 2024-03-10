@@ -97,7 +97,7 @@ class _ControlsBodyState extends State<ControlsBody> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 80, bottom: 40),
+            padding: const EdgeInsets.only(right: 80, bottom: 20),
             child: Text(
               "with $devicename",
               style: const TextStyle(
@@ -108,48 +108,105 @@ class _ControlsBodyState extends State<ControlsBody> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isStarted = !_isStarted;
-                  });
-                },
-                child: Container(
+          Expanded(
+            child: GridView.count(
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 40),
+              crossAxisSpacing: 20,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isStarted = !_isStarted;
+                    });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 25, right: 15, bottom: 20, top: 20),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets\\images\\controls_background.jpeg'),
+                            fit: BoxFit.contain),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(top: 9, right: 22),
+                            child: Column(
+                              children: [
+                                _isStarted
+                                    ? const Text(
+                                        "STOP",
+                                        style: TextStyle(
+                                            fontFamily: 'cooper',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 16),
+                                      )
+                                    : const Text(
+                                        "START",
+                                        style: TextStyle(
+                                            fontFamily: 'cooper',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 16),
+                                      ),
+                                const Text(
+                                  'Transcribe',
+                                  style: TextStyle(
+                                    fontFamily: 'courier',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 8,
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30, top: 12),
+                          child: _isStarted
+                              ? const Icon(
+                                  Icons.stop_circle,
+                                  size: 38,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.play_circle_fill,
+                                  size: 38,
+                                  color: Colors.white,
+                                ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 15, right: 25, bottom: 20, top: 20),
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                              'assets\\images\\controls_background.jpeg')),
+                              'assets\\images\\controls_background.jpeg'),
+                          fit: BoxFit.contain),
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  width: 100,
-                  height: 100,
-                  child: Column(
+                  child: const Column(
                     children: [
                       Padding(
-                          padding: const EdgeInsets.only(top: 9, right: 22),
+                          padding: EdgeInsets.only(top: 9, right: 5),
                           child: Column(
                             children: [
-                              _isStarted
-                                  ? const Text(
-                                      "STOP",
-                                      style: TextStyle(
-                                          fontFamily: 'cooper',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 16),
-                                    )
-                                  : const Text(
-                                      "START",
-                                      style: TextStyle(
-                                          fontFamily: 'cooper',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 16),
-                                    ),
-                              const Text(
-                                'Transcribe',
+                              Text(
+                                "BATTERY",
+                                style: TextStyle(
+                                    fontFamily: 'cooper',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 16),
+                              ),
+                              Text(
+                                'Percentage    ',
                                 style: TextStyle(
                                   fontFamily: 'courier',
                                   color: Colors.white,
@@ -160,145 +217,84 @@ class _ControlsBodyState extends State<ControlsBody> {
                             ],
                           )),
                       Padding(
-                        padding: const EdgeInsets.only(left: 30, top: 12),
-                        child: _isStarted
-                            ? const Icon(
-                                Icons.stop_circle,
-                                size: 38,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.play_circle_fill,
-                                size: 38,
-                                color: Colors.white,
-                              ),
+                        padding: EdgeInsets.only(left: 40, top: 12),
+                        child: Icon(
+                          Icons.battery_5_bar_outlined,
+                          size: 38,
+                          color: Colors.white,
+                        ),
                       )
                     ],
                   ),
                 ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            'assets\\images\\controls_background.jpeg')),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 100,
-                height: 100,
-                child: const Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(top: 9, right: 5),
-                        child: Column(
-                          children: [
-                            Text(
-                              "BATTERY",
-                              style: TextStyle(
-                                  fontFamily: 'cooper',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16),
-                            ),
-                            Text(
-                              'Percentage    ',
-                              style: TextStyle(
-                                fontFamily: 'courier',
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 25, right: 15, bottom: 20, top: 20),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets\\images\\controls_background.jpeg'),
+                          fit: BoxFit.contain),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: const Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 9),
+                          child: Text(
+                            "SAVE\nLECTURE",
+                            style: TextStyle(
+                                fontFamily: 'cooper',
                                 color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 8,
-                              ),
-                            ),
-                          ],
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40, top: 12),
-                      child: Icon(
-                        Icons.battery_5_bar_outlined,
-                        size: 38,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14),
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 40,
+                        ),
+                        child: Icon(
+                          Icons.post_add_outlined,
+                          size: 38,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 10,
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            'assets\\images\\controls_background.jpeg')),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 100,
-                height: 100,
-                child: const Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(top: 9),
-                        child: Text(
-                          "SAVE\nLECTURE",
-                          style: TextStyle(
-                              fontFamily: 'cooper',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 14),
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 40,
-                      ),
-                      child: Icon(
-                        Icons.post_add_outlined,
-                        size: 38,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 15, right: 25, bottom: 20, top: 20),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets\\images\\controls_background.jpeg'),
+                          fit: BoxFit.contain),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: const Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 9),
+                          child: Text(
+                            "SIGNAL\nSTRENGTH",
+                            style: TextStyle(
+                                fontFamily: 'cooper',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 13),
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(left: 40, top: 5),
+                        child: Icon(
+                          Icons.signal_cellular_alt,
+                          size: 38,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            'assets\\images\\controls_background.jpeg')),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 100,
-                height: 100,
-                child: const Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(top: 9),
-                        child: Text(
-                          "SIGNAL\nSTRENGTH",
-                          style: TextStyle(
-                              fontFamily: 'cooper',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 13),
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40, top: 5),
-                      child: Icon(
-                        Icons.signal_cellular_alt,
-                        size: 38,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 10,
-            height: 50,
+              ],
+            ),
           ),
           const Text(
             "Tap to disconnect ",
@@ -322,56 +318,43 @@ class _ControlsBodyState extends State<ControlsBody> {
                 color: Colors.white,
                 size: 40,
               )),
-          Expanded(
-            flex: 25,
+          Padding(
+            padding: const EdgeInsets.only(top: 80, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 90),
-                  child: GestureDetector(
+                GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => const ExpandedText()));
                     },
-                    child: const CircleAvatar(
-                        backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                        radius: 24,
-                        child: Icon(
-                          Icons.phone_iphone_outlined,
-                          size: 40,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )),
-                  ),
-                ),
-                const Hero(
-                  tag: 'home-button-icon',
-                  child: CircleAvatar(
-                      backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                      radius: 24,
-                      child: Icon(
-                        Icons.home_filled,
-                        size: 35,
-                        color: Color.fromARGB(0, 14, 96, 131),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 90),
-                  child: GestureDetector(
+                    child: const Hero(
+                      tag: 'transcriptor-button-icon',
+                      child: CircleAvatar(
+                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                          radius: 24,
+                          child: Icon(
+                            Icons.phone_iphone_outlined,
+                            size: 40,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          )),
+                    )),
+                GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const ProfilePage()));
                     },
-                    child: const CircleAvatar(
-                        backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                        radius: 24,
-                        child: Icon(
-                          Icons.menu_book,
-                          size: 40,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        )),
-                  ),
-                ),
+                    child: const Hero(
+                      tag: 'profile-button-icon',
+                      child: CircleAvatar(
+                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                          radius: 24,
+                          child: Icon(
+                            Icons.menu_book,
+                            size: 40,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          )),
+                    )),
               ],
             ),
           )
