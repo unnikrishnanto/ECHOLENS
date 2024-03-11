@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
@@ -6,7 +7,7 @@ import 'package:main_project/pages/transcriptor_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,35 +69,37 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int count = 6;
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets\\images\\background.jpeg'),
                 fit: BoxFit.fill)),
         child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Flexible(
+            flex: 80,
+            child: Container(
+              //   color: Colors.deepOrange,
+              child: Column(
                 children: [
-              Flexible(
-                flex: 80,
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 30, right: 150),
-                      child: Text(
-                        "SAVED LECTURES",
-                        style: TextStyle(
-                          fontFamily: 'canvas',
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 30, bottom: 40, right: 150),
+                    child: Text(
+                      "SAVED LECTURES",
+                      style: TextStyle(
+                        fontFamily: 'canvas',
+                        fontSize: 16,
+                        color: Colors.white,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 100),
+                  ),
+                  Expanded(
+                    child: Center(
                       child: Container(
                         width: 280,
-                        height: 200,
+                        height: count < 5 ? (count * 60) : 350,
                         decoration: BoxDecoration(
                             border: const GradientBoxBorder(
                               gradient: LinearGradient(colors: [
@@ -107,7 +110,8 @@ class ProfileBody extends StatelessWidget {
                             ),
                             color: const Color.fromARGB(255, 0, 0, 0),
                             borderRadius: BorderRadius.circular(25)),
-                        padding: const EdgeInsets.only(top: 5),
+                        padding:
+                            const EdgeInsets.only(top: 5, left: 5, right: 5),
                         child: ListView.separated(
                             itemBuilder: (context, index) {
                               return ListTile(
@@ -203,94 +207,93 @@ class ProfileBody extends StatelessWidget {
                               );
                             },
                             separatorBuilder: (ctx, index) => const Divider(),
-                            itemCount: 10),
+                            itemCount: count),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
+          ),
 // NAvigation bar
-              Flexible(
-                  flex: 20,
-                  child: !isConnected //checking weather status is falae
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 70),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          const TranscriptorPage()));
-                                },
-                                child: const Hero(
-                                  tag: 'transcriptor-button-icon',
-                                  child: CircleAvatar(
-                                      backgroundColor:
-                                          Color.fromARGB(0, 255, 255, 255),
-                                      radius: 24,
-                                      child: Icon(
-                                        Icons.phone_iphone_outlined,
-                                        size: 40,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      )),
-                                ),
-                              ),
+          Flexible(
+              flex: 20,
+              child: !isConnected //checking weather status is falae
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 70),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => const TranscriptorPage()));
+                            },
+                            child: const Hero(
+                              tag: 'transcriptor-button-icon',
+                              child: CircleAvatar(
+                                  backgroundColor:
+                                      Color.fromARGB(0, 255, 255, 255),
+                                  radius: 24,
+                                  child: Icon(
+                                    Icons.phone_iphone_outlined,
+                                    size: 40,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  )),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 70,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (ctx) => const HomePage()));
-                                },
-                                child: const Hero(
-                                  tag: 'home-button-icon',
-                                  child: CircleAvatar(
-                                      backgroundColor:
-                                          Color.fromARGB(0, 14, 96, 131),
-                                      radius: 24,
-                                      child: Icon(
-                                        Icons.home_filled,
-                                        size: 38,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 40),
-                              child: Hero(
-                                tag: 'profile-button-icon',
-                                child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 24,
-                                    child: Icon(
-                                      Icons.menu_book,
-                                      size: 35,
-                                      color: Color.fromARGB(170, 14, 96, 131),
-                                    )),
-                              ),
-                            ),
-                          ],
-                        )
-
-                      ://if Status is true 
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Icon(
-                            Icons.exit_to_app,
-                            color: Colors.white,
-                            size: 40,
                           ),
-                        ))
-            ])));
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 70,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (ctx) => const HomePage()));
+                            },
+                            child: const Hero(
+                              tag: 'home-button-icon',
+                              child: CircleAvatar(
+                                  backgroundColor:
+                                      Color.fromARGB(0, 14, 96, 131),
+                                  radius: 24,
+                                  child: Icon(
+                                    Icons.home_filled,
+                                    size: 38,
+                                    color: Colors.white,
+                                  )),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 0, bottom: 40),
+                          child: Hero(
+                            tag: 'profile-button-icon',
+                            child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 24,
+                                child: Icon(
+                                  Icons.menu_book,
+                                  size: 35,
+                                  color: Color.fromARGB(170, 14, 96, 131),
+                                )),
+                          ),
+                        ),
+                      ],
+                    )
+                  : //if Status is true
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Icon(
+                        Icons.exit_to_app,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ))
+        ])));
   }
 }
