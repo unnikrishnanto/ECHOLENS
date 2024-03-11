@@ -1,10 +1,14 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
 
 String? devicename = '********';
+TextEditingController lectureName = TextEditingController();
+TextEditingController lectureDuration = TextEditingController();
 
 class ControlsPage extends StatelessWidget {
   const ControlsPage({super.key});
@@ -227,38 +231,45 @@ class _ControlsBodyState extends State<ControlsBody> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 25, right: 15, bottom: 20, top: 20),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets\\images\\controls_background.jpeg'),
-                          fit: BoxFit.contain),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: const Column(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 9),
-                          child: Text(
-                            "SAVE\nLECTURE",
-                            style: TextStyle(
-                                fontFamily: 'cooper',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 14),
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 40,
-                        ),
-                        child: Icon(
-                          Icons.post_add_outlined,
-                          size: 38,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => const LectureDetails());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 25, right: 15, bottom: 20, top: 20),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets\\images\\controls_background.jpeg'),
+                            fit: BoxFit.contain),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: const Column(
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(top: 9),
+                            child: Text(
+                              "SAVE\nLECTURE",
+                              style: TextStyle(
+                                  fontFamily: 'cooper',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 40,
+                          ),
+                          child: Icon(
+                            Icons.post_add_outlined,
+                            size: 38,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -367,6 +378,82 @@ class _ControlsBodyState extends State<ControlsBody> {
     isConnected = false;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (ctx) => const HomePage()),
+    );
+  }
+}
+
+class LectureDetails extends StatelessWidget {
+  const LectureDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: const BoxDecoration(
+            color: Color.fromARGB(230, 78, 190, 255),
+            border: GradientBoxBorder(
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(246, 11, 208, 226),
+                Color.fromARGB(255, 26, 170, 64)
+              ], begin: Alignment.centerLeft, end: Alignment.bottomRight),
+              width: 5,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        padding: EdgeInsets.all(10),
+        width: 300,
+        height: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextField(
+              controller: lectureName,
+              decoration: const InputDecoration(
+                  hintText: "Lecture Name",
+                  hintStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 254, 254))),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                          width: 2, color: Color.fromARGB(225, 20, 202, 129)))),
+            ),
+            TextField(
+              controller: lectureDuration,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  hintText: "Lecture Duration (Default 2 hrs)",
+                  hintStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 254, 254))),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                          width: 2, color: Color.fromARGB(225, 20, 202, 129)))),
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                    backgroundColor: Color.fromARGB(255, 7, 143, 170)),
+                onPressed: () {
+                  print(lectureName.text);
+                  print(lectureDuration.text);
+                  lectureName.clear();
+                  lectureDuration.clear();
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "+ADD",
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
+      ),
     );
   }
 }
