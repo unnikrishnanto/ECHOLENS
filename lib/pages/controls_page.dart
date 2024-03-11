@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/main.dart';
@@ -439,7 +438,7 @@ class LectureDetails extends StatelessWidget {
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    backgroundColor: Color.fromARGB(255, 7, 143, 170)),
+                    backgroundColor: const Color.fromARGB(255, 7, 143, 170)),
                 onPressed: () {
                   print(lectureName.text);
                   print(lectureDuration.text);
