@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:main_project/dataBase/db_functions.dart';
+import 'package:main_project/dataBase/lectures_model.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
@@ -232,6 +234,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    lectureDuration.text = '2';
                     showDialog(
                         context: context,
                         builder: (context) => const LectureDetails());
@@ -399,7 +402,7 @@ class LectureDetails extends StatelessWidget {
               width: 5,
             ),
             borderRadius: BorderRadius.all(Radius.circular(20))),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         width: 300,
         height: 300,
         child: Column(
@@ -440,11 +443,17 @@ class LectureDetails extends StatelessWidget {
                     elevation: 3,
                     backgroundColor: const Color.fromARGB(255, 7, 143, 170)),
                 onPressed: () {
-                  print(lectureName.text);
-                  print(lectureDuration.text);
-                  lectureName.clear();
-                  lectureDuration.clear();
-                  Navigator.of(context).pop();
+                  if(lectureName.text.isNotEmpty)
+                  {
+                    final duration = int.tryParse(lectureDuration.text);
+                    print("${duration.runtimeType} : $duration");
+                    final lecture =
+                        LecturesModel(lectureName: lectureName.value.text);
+                    addLecture(lecture);
+                    lectureName.clear();
+                    lectureDuration.clear();
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: const Text(
                   "+ADD",
