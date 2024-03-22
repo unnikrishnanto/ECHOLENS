@@ -71,7 +71,6 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = 1;
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -111,7 +110,7 @@ class ProfileBody extends StatelessWidget {
                           color: const Color.fromARGB(255, 0, 0, 0),
                           borderRadius: BorderRadius.circular(25)),
                       padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                      child: count == 0
+                      child: lecturesListNotifier.value.isEmpty
                           ? const Center(
                               child: Text(
                                 "No Lectures Found..",
@@ -120,109 +119,129 @@ class ProfileBody extends StatelessWidget {
                               ),
                             )
                           : ValueListenableBuilder(
-                            valueListenable: LecturesListNotifier,
-                            builder: (BuildContext context,List<LecturesModel> lecturesList,Widget? child){
-                              return ListView.separated(
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 10, right: 5),
-                                      horizontalTitleGap: 5,
-                                      leading: Text(
-                                        "${index + 1}",
-                                        style: const TextStyle(
-                                          color: Color.fromARGB(250, 246, 246, 246),
-                                          fontFamily: 'poppins',
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      title: Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 3, left: 6, bottom: 2, right: 4),
-                                        decoration: const BoxDecoration(
-                                            border: Border(
-                                          top: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  235, 176, 163, 40)),
-                                          bottom: BorderSide(
-                                              width: 1,
-                                              color: Color.fromARGB(
-                                                  235, 176, 163, 40)),
-                                          left: BorderSide(
-                                              width: 2,
-                                              color: Color.fromARGB(
-                                                  245, 235, 212, 12)),
-                                          right: BorderSide(
-                                              width: 2,
-                                              color: Color.fromARGB(
-                                                  245, 235, 212, 12)),
-                                        )),
-                                        child: Text(
-                                          lecturesList[index].lectureName,
-                                          textAlign: TextAlign.left,
-                                          maxLines: 2,
+                              valueListenable: lecturesListNotifier,
+                              builder: (BuildContext context,
+                                  List<LecturesModel> lecturesList,
+                                  Widget? child) {
+                                return ListView.separated(
+                                    itemBuilder: (context, index) {
+                                      final data = lecturesList[index];
+                                      return ListTile(
+                                        contentPadding: const EdgeInsets.only(
+                                            left: 10, right: 5),
+                                        horizontalTitleGap: 5,
+                                        leading: Text(
+                                          "${index + 1}",
                                           style: const TextStyle(
-                                            color:
-                                                Color.fromARGB(250, 246, 246, 246),
+                                            color: Color.fromARGB(
+                                                250, 246, 246, 246),
                                             fontFamily: 'poppins',
                                             fontWeight: FontWeight.w700,
+                                            fontSize: 18,
                                           ),
                                         ),
-                                      ),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10, top: 5, bottom: 5),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  gradient: const LinearGradient(
-                                                    colors: [
-                                                      Color.fromARGB(251, 0, 0, 0),
-                                                      Color.fromARGB(
-                                                          255, 23, 189, 20)
-                                                    ],
-                                                    begin: Alignment.centerLeft,
-                                                    end: Alignment.center,
-                                                  ),
-                                                ),
-                                                width: 60,
-                                                height: 30,
-                                                child: const Text(
-                                                  "VIEW",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                  ),
-                                                )),
-                                          ),
-                                          const SizedBox(
-                                            height: 2,
-                                            width: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: const Icon(
-                                              Icons.delete,
-                                              size: 30,
-                                              color:
-                                                  Color.fromARGB(255, 184, 65, 65),
+                                        title: Container(
+                                          padding: const EdgeInsets.only(
+                                              top: 3,
+                                              left: 6,
+                                              bottom: 2,
+                                              right: 4),
+                                          decoration: const BoxDecoration(
+                                              border: Border(
+                                            top: BorderSide(
+                                                width: 1,
+                                                color: Color.fromARGB(
+                                                    235, 176, 163, 40)),
+                                            bottom: BorderSide(
+                                                width: 1,
+                                                color: Color.fromARGB(
+                                                    235, 176, 163, 40)),
+                                            left: BorderSide(
+                                                width: 2,
+                                                color: Color.fromARGB(
+                                                    245, 235, 212, 12)),
+                                            right: BorderSide(
+                                                width: 2,
+                                                color: Color.fromARGB(
+                                                    245, 235, 212, 12)),
+                                          )),
+                                          child: Text(
+                                            data.lectureName,
+                                            textAlign: TextAlign.left,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  250, 246, 246, 246),
+                                              fontFamily: 'poppins',
+                                              fontWeight: FontWeight.w700,
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (ctx, index) => const Divider(),
-                                  itemCount: lecturesList.length);
-                            }
-                          ),
+                                          ),
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10,
+                                                          top: 5,
+                                                          bottom: 5),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    gradient:
+                                                        const LinearGradient(
+                                                      colors: [
+                                                        Color.fromARGB(
+                                                            251, 0, 0, 0),
+                                                        Color.fromARGB(
+                                                            255, 23, 189, 20)
+                                                      ],
+                                                      begin:
+                                                          Alignment.centerLeft,
+                                                      end: Alignment.center,
+                                                    ),
+                                                  ),
+                                                  width: 60,
+                                                  height: 30,
+                                                  child: const Text(
+                                                    "VIEW",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                    ),
+                                                  )),
+                                            ),
+                                            const SizedBox(
+                                              height: 2,
+                                              width: 5,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (data.id != null) {
+                                                  deleteLecture(data.id!);
+                                                } else {
+                                                  print("Lecture id is null");
+                                                }
+                                              },
+                                              child: const Icon(
+                                                Icons.delete,
+                                                size: 30,
+                                                color: Color.fromARGB(
+                                                    255, 184, 65, 65),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (ctx, index) =>
+                                        const Divider(),
+                                    itemCount: lecturesList.length);
+                              }),
                     ),
                   ),
                 ),

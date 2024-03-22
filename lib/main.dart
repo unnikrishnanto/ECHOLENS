@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:main_project/dataBase/lectures_model.dart';
 import 'package:main_project/pages/home_page.dart';
 
 bool isConnected = false;
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  if (!Hive.isAdapterRegistered(LecturesModelAdapter().typeId)) {
+    Hive.registerAdapter(LecturesModelAdapter());
+  }
   runApp(const MyApp());
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/dataBase/db_functions.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/controls_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
@@ -13,6 +14,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 1;
+
+  @override
+  void initState() {
+    getAllLectures();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
