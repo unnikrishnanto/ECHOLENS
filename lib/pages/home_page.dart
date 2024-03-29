@@ -146,13 +146,18 @@ class _HomeScreenState extends State<HomeScreen>
                               fit: BoxFit.fill,
                             ));
                       })),
-              const Text(
-                "Tap to connect",
-                style: TextStyle(
-                  fontFamily: 'poppins',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  fontSize: 18,
+              GestureDetector(
+                onTap: () {
+                  navigate(context);
+                },
+                child: const Text(
+                  "Tap to connect",
+                  style: TextStyle(
+                    fontFamily: 'poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               Flexible(

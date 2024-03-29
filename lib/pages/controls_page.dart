@@ -309,13 +309,16 @@ class _ControlsBodyState extends State<ControlsBody> {
               ],
             ),
           ),
-          const Text(
-            "Tap to disconnect ",
-            style: TextStyle(
-              color: Color.fromARGB(252, 255, 255, 255),
-              fontFamily: 'poppins',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+          GestureDetector(
+            onTap: () => disconnect(context),
+            child: const Text(
+              "Tap to disconnect ",
+              style: TextStyle(
+                color: Color.fromARGB(252, 255, 255, 255),
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
           ),
           const SizedBox(
