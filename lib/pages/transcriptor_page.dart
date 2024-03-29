@@ -3,6 +3,7 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 String resultText =
     "This is the transcripted text.Which will be displayed continuously in real time as the microphone records the audio.\n this diaplaybox can be scrolled\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line";
@@ -64,11 +65,17 @@ class TranscriptorPage extends StatelessWidget {
   }
 }
 
-class TranscriptorBody extends StatelessWidget {
+class TranscriptorBody extends StatefulWidget {
   const TranscriptorBody({
     super.key,
   });
 
+  @override
+  State<TranscriptorBody> createState() => _TranscriptorBodyState();
+}
+
+class _TranscriptorBodyState extends State<TranscriptorBody> {
+  bool _isTranscripting = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,43 +101,81 @@ class TranscriptorBody extends StatelessWidget {
                 ),
                 // ignore: sized_box_for_whitespace
                 Container(
-                  height: 50,
+                  height: 85,
                   width: 200,
                   child: Row(
                     children: [
-                      const Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Icon(
-                            Icons.phone_android_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(0),
-                            child: Icon(
-                              Icons.mic_none_outlined,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              size: 20,
+                      GestureDetector(
+                        onTap: () {
+                          startTranscription();
+                        },
+                        child: AvatarGlow(
+                          animate: _isTranscripting,
+                          glowColor: const Color.fromARGB(255, 30, 192, 236),
+                          duration: const Duration(milliseconds: 2000),
+                          repeat: true,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.phone_android_outlined,
+                                  size: 40,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Icon(
+                                    Icons.mic_none_outlined,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    size: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 63),
+                                  child: !_isTranscripting
+                                      ? const Text(
+                                          'START',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'poppins',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : const Text(
+                                          'STOP',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'poppins',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                       // ignore: sized_box_for_whitespace
                       Container(
                           width: 100,
                           height: 48,
                           child: const Padding(
-                              padding: EdgeInsets.all(4.0),
+                              padding: EdgeInsets.only(
+                                  top: 8, bottom: 4, left: 4, right: 4),
                               child: Icon(
                                 Icons.arrow_right_alt_outlined,
                                 size: 40,
                                 color: Colors.white,
                               ))),
-                      Image.asset(
-                        'assets/icons/cc_icon.png',
-                        height: 45,
-                        width: 35,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Image.asset(
+                          'assets/icons/cc_icon.png',
+                          height: 45,
+                          width: 35,
+                        ),
                       )
                     ],
                   ),
@@ -141,7 +186,7 @@ class TranscriptorBody extends StatelessWidget {
                         builder: (context) => const ExpandedText()));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 100),
+                    padding: const EdgeInsets.only(top: 50),
                     child: Container(
                       width: 280,
                       height: 200,
@@ -249,5 +294,11 @@ class TranscriptorBody extends StatelessWidget {
             ),
           )
         ]));
+  }
+
+  void startTranscription() {
+    setState(() {
+      _isTranscripting = !_isTranscripting;
+    });
   }
 }
