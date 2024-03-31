@@ -110,7 +110,12 @@ class ProfileBody extends StatelessWidget {
                           color: const Color.fromARGB(255, 0, 0, 0),
                           borderRadius: BorderRadius.circular(25)),
                       padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                      child: lecturesListNotifier.value.isEmpty
+                      child:ValueListenableBuilder(
+                              valueListenable: lecturesListNotifier,
+                              builder: (BuildContext context,
+                                  List<LecturesModel> lecturesList,
+                                  Widget? child) {
+                                return  lecturesListNotifier.value.isEmpty
                           ? const Center(
                               child: Text(
                                 "No Lectures Found..",
@@ -118,12 +123,7 @@ class ProfileBody extends StatelessWidget {
                                     color: Color.fromARGB(115, 213, 195, 195)),
                               ),
                             )
-                          : ValueListenableBuilder(
-                              valueListenable: lecturesListNotifier,
-                              builder: (BuildContext context,
-                                  List<LecturesModel> lecturesList,
-                                  Widget? child) {
-                                return ListView.separated(
+                          :  ListView.separated(
                                     itemBuilder: (context, index) {
                                       final data = lecturesList[index];
                                       return ListTile(

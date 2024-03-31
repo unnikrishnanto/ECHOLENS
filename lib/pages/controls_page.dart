@@ -446,8 +446,7 @@ class LectureDetails extends StatelessWidget {
                     elevation: 3,
                     backgroundColor: const Color.fromARGB(255, 7, 143, 170)),
                 onPressed: () {
-                  if(lectureName.text.isNotEmpty)
-                  {
+                  if (lectureName.text.isNotEmpty) {
                     final duration = int.tryParse(lectureDuration.text);
                     print("${duration.runtimeType} : $duration");
                     final lecture =

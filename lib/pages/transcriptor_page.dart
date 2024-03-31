@@ -101,7 +101,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                 ),
                 // ignore: sized_box_for_whitespace
                 Container(
-                  height: 85,
+                  height: 90,
                   width: 200,
                   child: Row(
                     children: [
@@ -186,7 +186,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                         builder: (context) => const ExpandedText()));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.only(top: 45),
                     child: Container(
                       width: 280,
                       height: 200,

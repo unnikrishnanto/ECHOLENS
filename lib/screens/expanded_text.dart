@@ -49,7 +49,7 @@ class _ExpandedTextState extends State<ExpandedText> {
                   },
                   child: Container(
                     width: 300,
-                    height: 550,
+                    height: MediaQuery.of(context).size.height * 0.8,
                     decoration: BoxDecoration(
                         border: const GradientBoxBorder(
                           gradient: LinearGradient(colors: [
