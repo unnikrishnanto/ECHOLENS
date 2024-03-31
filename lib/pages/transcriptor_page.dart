@@ -4,9 +4,9 @@ import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
-String resultText =
-    "This is the transcripted text.Which will be displayed continuously in real time as the microphone records the audio.\n this diaplaybox can be scrolled\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line\n new line";
+String resultText = "This is the transcripted text.Which will be displayed";
 
 class TranscriptorPage extends StatelessWidget {
   const TranscriptorPage({super.key});
@@ -75,7 +75,9 @@ class TranscriptorBody extends StatefulWidget {
 }
 
 class _TranscriptorBodyState extends State<TranscriptorBody> {
-  bool _isTranscripting = false;
+  bool isTranscripting = false;
+  SpeechToText st = SpeechToText();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,7 +112,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                           startTranscription();
                         },
                         child: AvatarGlow(
-                          animate: _isTranscripting,
+                          animate: isTranscripting,
                           glowColor: const Color.fromARGB(255, 30, 192, 236),
                           duration: const Duration(milliseconds: 2000),
                           repeat: true,
@@ -134,7 +136,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 63),
-                                  child: !_isTranscripting
+                                  child: !isTranscripting
                                       ? const Text(
                                           'START',
                                           style: TextStyle(
@@ -202,6 +204,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                           borderRadius: BorderRadius.circular(25)),
                       padding: const EdgeInsets.all(12.0),
                       child: SingleChildScrollView(
+                        reverse: true,
                         child: Text(
                           resultText,
                           style: const TextStyle(
@@ -296,9 +299,24 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
         ]));
   }
 
-  void startTranscription() {
-    setState(() {
-      _isTranscripting = !_isTranscripting;
-    });
+  void startTranscription() async {
+    if (!isTranscripting) {
+      setState(() {
+        isTranscripting = true;
+      });
+      var available = await st.initialize();
+      if (available) {
+        st.listen(onResult: ((result) {
+          setState(() {
+            resultText = result.recognizedWords;
+          });
+        }));
+      }
+    } else {
+      setState(() {
+        isTranscripting = false;
+      });
+      st.stop();
+    }
   }
 }
