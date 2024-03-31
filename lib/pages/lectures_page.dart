@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              print('pressed');
+            //  print('pressed');
             },
             icon: const Icon(Icons.menu),
             color: Colors.white,
