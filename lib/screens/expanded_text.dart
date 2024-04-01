@@ -48,7 +48,8 @@ class _ExpandedTextState extends State<ExpandedText> {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    width: 300,
+                    alignment: Alignment.topLeft,
+                    width: MediaQuery.of(context).size.width * 0.7,
                     height: MediaQuery.of(context).size.height * 0.8,
                     decoration: BoxDecoration(
                         border: const GradientBoxBorder(
@@ -62,6 +63,7 @@ class _ExpandedTextState extends State<ExpandedText> {
                         borderRadius: BorderRadius.circular(25)),
                     padding: const EdgeInsets.all(12.0),
                     child: SingleChildScrollView(
+                      reverse: true,
                       child: Text(
                         resultText,
                         style: TextStyle(

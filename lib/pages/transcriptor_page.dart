@@ -6,7 +6,7 @@ import 'package:main_project/screens/expanded_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-String resultText = "This is the transcripted text.Which will be displayed";
+String resultText = "Click the Start button to start transcription";
 
 class TranscriptorPage extends StatelessWidget {
   const TranscriptorPage({super.key});
@@ -190,8 +190,9 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 45),
                     child: Container(
-                      width: 280,
-                      height: 200,
+                      alignment: Alignment.topLeft,
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       decoration: BoxDecoration(
                           border: const GradientBoxBorder(
                             gradient: LinearGradient(colors: [
