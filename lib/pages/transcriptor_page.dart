@@ -6,7 +6,8 @@ import 'package:main_project/screens/expanded_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-String resultText = "Click the Start button to start transcription";
+ValueNotifier<String> resultText =
+    ValueNotifier("Click the Start button to start transcription");
 
 class TranscriptorPage extends StatelessWidget {
   const TranscriptorPage({super.key});
@@ -206,13 +207,17 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                       padding: const EdgeInsets.all(12.0),
                       child: SingleChildScrollView(
                         reverse: true,
-                        child: Text(
-                          resultText,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'courier',
-                              fontWeight: FontWeight.w900),
-                        ),
+                        child: ValueListenableBuilder(
+                            valueListenable: resultText,
+                            builder: (context, value, child) {
+                              return Text(
+                                resultText.value,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'courier',
+                                    fontWeight: FontWeight.w900),
+                              );
+                            }),
                       ),
                     ),
                   ),
@@ -309,7 +314,8 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       if (available) {
         st.listen(onResult: ((result) {
           setState(() {
-            resultText = result.recognizedWords;
+            resultText.value = result.recognizedWords;
+            resultText.notifyListeners();
           });
         }));
       }

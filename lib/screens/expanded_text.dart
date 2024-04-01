@@ -64,14 +64,18 @@ class _ExpandedTextState extends State<ExpandedText> {
                     padding: const EdgeInsets.all(12.0),
                     child: SingleChildScrollView(
                       reverse: true,
-                      child: Text(
-                        resultText,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'courier',
-                            fontWeight: FontWeight.w900,
-                            fontSize: _fontSize),
-                      ),
+                      child: ValueListenableBuilder(
+                          valueListenable: resultText,
+                          builder: (context, value, child) {
+                            return Text(
+                              resultText.value,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'courier',
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: _fontSize),
+                            );
+                          }),
                     ),
                   ),
                 ),

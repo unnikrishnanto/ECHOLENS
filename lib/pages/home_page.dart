@@ -242,6 +242,7 @@ class _HomeScreenState extends State<HomeScreen>
       _paddingBottom = 100;
       _opacity = 0;
     });
+    resultText.value = "Click the Start button to start transcription";
     await Future.delayed(const Duration(milliseconds: 200), () {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (ctx) => const ControlsPage()),
