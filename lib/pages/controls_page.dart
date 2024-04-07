@@ -5,7 +5,9 @@ import 'package:main_project/dataBase/lectures_model.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
+import 'package:main_project/pages/transcriptor_page.dart';
 import 'package:main_project/screens/expanded_text.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 String? devicename = '********';
 TextEditingController lectureName = TextEditingController();
@@ -79,6 +81,7 @@ class ControlsBody extends StatefulWidget {
 
 class _ControlsBodyState extends State<ControlsBody> {
   bool _isStarted = false;
+  SpeechToText st = SpeechToText();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -122,9 +125,7 @@ class _ControlsBodyState extends State<ControlsBody> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _isStarted = !_isStarted;
-                    });
+                    startTranscribing();
                   },
                   child: Container(
                     margin: const EdgeInsets.only(
@@ -381,9 +382,30 @@ class _ControlsBodyState extends State<ControlsBody> {
 
   Future<void> disconnect(BuildContext context) async {
     isConnected = false;
+    st.stop();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (ctx) => const HomePage()),
     );
+  }
+
+  void startTranscribing() async {
+    if (!_isStarted) {
+      setState(() {
+        _isStarted = true;
+      });
+      var available = await st.initialize();
+      if (available) {
+        st.listen(onResult: ((result) {
+            resultText.value = result.recognizedWords;
+            resultText.notifyListeners();
+        }));
+      }
+    } else {
+      setState(() {
+        _isStarted = false;
+      });
+      st.stop();
+    }
   }
 }
 

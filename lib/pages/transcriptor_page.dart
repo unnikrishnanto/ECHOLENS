@@ -313,10 +313,10 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       var available = await st.initialize();
       if (available) {
         st.listen(onResult: ((result) {
-          setState(() {
+
             resultText.value = result.recognizedWords;
             resultText.notifyListeners();
-          });
+
         }));
       }
     } else {
