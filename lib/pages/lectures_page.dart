@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:main_project/dataBase/db_functions.dart';
 import 'package:main_project/dataBase/lectures_model.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/transcriptor_page.dart';
+import 'package:main_project/screens/lecture_view.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-            //  print('pressed');
+               print('pressed');
             },
             icon: const Icon(Icons.menu),
             color: Colors.white,
@@ -110,20 +110,20 @@ class ProfileBody extends StatelessWidget {
                           color: const Color.fromARGB(255, 0, 0, 0),
                           borderRadius: BorderRadius.circular(25)),
                       padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                      child:ValueListenableBuilder(
-                              valueListenable: lecturesListNotifier,
-                              builder: (BuildContext context,
-                                  List<LecturesModel> lecturesList,
-                                  Widget? child) {
-                                return  lecturesListNotifier.value.isEmpty
-                          ? const Center(
-                              child: Text(
-                                "No Lectures Found..",
-                                style: TextStyle(
-                                    color: Color.fromARGB(115, 213, 195, 195)),
-                              ),
-                            )
-                          :  ListView.separated(
+                      child: ValueListenableBuilder(
+                          valueListenable: lecturesListNotifier,
+                          builder: (BuildContext context,
+                              List<LecturesModel> lecturesList, Widget? child) {
+                            return lecturesListNotifier.value.isEmpty
+                                ? const Center(
+                                    child: Text(
+                                      "No Lectures Found..",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              115, 213, 195, 195)),
+                                    ),
+                                  )
+                                : ListView.separated(
                                     itemBuilder: (context, index) {
                                       final data = lecturesList[index];
                                       return ListTile(
@@ -207,11 +207,23 @@ class ProfileBody extends StatelessWidget {
                                                   ),
                                                   width: 60,
                                                   height: 30,
-                                                  child: const Text(
-                                                    "VIEW",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  LectureView(
+                                                                      name: data
+                                                                          .lectureName,
+                                                                      content: data
+                                                                          .lectureContent)));
+                                                    },
+                                                    child: const Text(
+                                                      "VIEW",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                      ),
                                                     ),
                                                   )),
                                             ),
@@ -224,7 +236,14 @@ class ProfileBody extends StatelessWidget {
                                                 if (data.id != null) {
                                                   deleteLecture(data.id!);
                                                 } else {
-                                                  print("Lecture id is null");
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content: Text(
+                                                        "Lectures id is null"),
+                                                    duration:
+                                                        Duration(seconds: 2),
+                                                  ));
                                                 }
                                               },
                                               child: const Icon(
@@ -241,7 +260,7 @@ class ProfileBody extends StatelessWidget {
                                     separatorBuilder: (ctx, index) =>
                                         const Divider(),
                                     itemCount: lecturesList.length);
-                              }),
+                          }),
                     ),
                   ),
                 ),

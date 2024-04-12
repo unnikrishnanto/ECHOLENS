@@ -12,6 +12,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 String? devicename = '********';
 TextEditingController lectureName = TextEditingController();
 TextEditingController lectureDuration = TextEditingController();
+int lectureId = -1;
 
 class ControlsPage extends StatelessWidget {
   const ControlsPage({super.key});
@@ -235,10 +236,18 @@ class _ControlsBodyState extends State<ControlsBody> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    lectureDuration.text = '2';
-                    showDialog(
-                        context: context,
-                        builder: (context) => const LectureDetails());
+                    if (_isStarted) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            "Transcription in progress.save the lecture before starting transcription."),
+                        duration: Duration(seconds: 3),
+                      ));
+                    } else {
+                      lectureDuration.text = '2';
+                      showDialog(
+                          context: context,
+                          builder: (context) => const LectureDetails());
+                    }
                   },
                   child: Container(
                     margin: const EdgeInsets.only(
@@ -396,14 +405,19 @@ class _ControlsBodyState extends State<ControlsBody> {
       var available = await st.initialize();
       if (available) {
         st.listen(onResult: ((result) {
-            resultText.value = result.recognizedWords;
-            resultText.notifyListeners();
+          resultText.value = result.recognizedWords;
+          resultText.notifyListeners();
         }));
       }
     } else {
       setState(() {
         _isStarted = false;
       });
+      if (lectureId >=0) {
+        await saveLectureInDb(lectureId, resultText.value);
+        lectureId = -1;
+      }
+
       st.stop();
     }
   }
@@ -467,13 +481,13 @@ class LectureDetails extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
                     backgroundColor: const Color.fromARGB(255, 7, 143, 170)),
-                onPressed: () {
+                onPressed: () async {
                   if (lectureName.text.isNotEmpty) {
                     final duration = int.tryParse(lectureDuration.text);
                     print("${duration.runtimeType} : $duration");
                     final lecture =
                         LecturesModel(lectureName: lectureName.value.text);
-                    addLecture(lecture);
+                    await addLecture(lecture);
                     lectureName.clear();
                     lectureDuration.clear();
                     Navigator.of(context).pop();
