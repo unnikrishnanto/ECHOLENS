@@ -9,9 +9,14 @@ import 'package:speech_to_text/speech_to_text.dart';
 ValueNotifier<String> resultText =
     ValueNotifier("Click the Start button to start transcription");
 
-class TranscriptorPage extends StatelessWidget {
+class TranscriptorPage extends StatefulWidget {
   const TranscriptorPage({super.key});
+  @override
+  State<TranscriptorPage> createState() => _TranscriptorPageState();
+}
 
+class _TranscriptorPageState extends State<TranscriptorPage> {
+  double turns = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,15 +57,23 @@ class TranscriptorPage extends StatelessWidget {
         ),
         titleSpacing: 5,
         actions: [
-          IconButton(
-            onPressed: () {
-              print('pressed');
-            },
-            icon: const Icon(Icons.menu),
-            color: Colors.white,
-          )
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () async {
+                setState(() => turns += 1);
+                await Future.delayed(const Duration(milliseconds: 300));
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: AnimatedRotation(
+                  turns: turns,
+                  duration: const Duration(seconds: 1),
+                  child: const Icon(Icons.menu)),
+              color: Colors.white,
+            );
+          })
         ],
       ),
+      endDrawer: const NavDrawer(),
       body: const TranscriptorBody(),
     );
   }
@@ -313,10 +326,8 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       var available = await st.initialize();
       if (available) {
         st.listen(onResult: ((result) {
-
-            resultText.value = result.recognizedWords;
-            resultText.notifyListeners();
-
+          resultText.value = result.recognizedWords;
+          resultText.notifyListeners();
         }));
       }
     } else {

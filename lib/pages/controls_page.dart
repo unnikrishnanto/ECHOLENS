@@ -13,10 +13,16 @@ String? devicename = '********';
 TextEditingController lectureName = TextEditingController();
 TextEditingController lectureDuration = TextEditingController();
 int lectureId = -1;
+double turns = 1;
 
-class ControlsPage extends StatelessWidget {
+class ControlsPage extends StatefulWidget {
   const ControlsPage({super.key});
 
+  @override
+  State<ControlsPage> createState() => _ControlsPageState();
+}
+
+class _ControlsPageState extends State<ControlsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,15 +63,23 @@ class ControlsPage extends StatelessWidget {
         ),
         titleSpacing: 5,
         actions: [
-          IconButton(
-            onPressed: () {
-              print('pressed');
-            },
-            icon: const Icon(Icons.menu),
-            color: Colors.white,
-          )
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () async {
+                setState(() => turns += 1);
+                await Future.delayed(const Duration(milliseconds: 300));
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: AnimatedRotation(
+                  turns: turns,
+                  duration: const Duration(seconds: 1),
+                  child: const Icon(Icons.menu)),
+              color: Colors.white,
+            );
+          })
         ],
       ),
+      endDrawer: const NavDrawer(),
       body: const ControlsBody(),
     );
   }
@@ -413,7 +427,7 @@ class _ControlsBodyState extends State<ControlsBody> {
       setState(() {
         _isStarted = false;
       });
-      if (lectureId >=0) {
+      if (lectureId >= 0) {
         await saveLectureInDb(lectureId, resultText.value);
         lectureId = -1;
       }

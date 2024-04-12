@@ -7,9 +7,15 @@ import 'package:main_project/pages/home_page.dart';
 import 'package:main_project/pages/transcriptor_page.dart';
 import 'package:main_project/screens/lecture_view.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  double turns = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +56,23 @@ class ProfilePage extends StatelessWidget {
         ),
         titleSpacing: 5,
         actions: [
-          IconButton(
-            onPressed: () {
-               print('pressed');
-            },
-            icon: const Icon(Icons.menu),
-            color: Colors.white,
-          )
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () async {
+                setState(() => turns += 1);
+                await Future.delayed(const Duration(milliseconds: 300));
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: AnimatedRotation(
+                  turns: turns,
+                  duration: const Duration(seconds: 1),
+                  child: const Icon(Icons.menu)),
+              color: Colors.white,
+            );
+          })
         ],
       ),
+      endDrawer: const NavDrawer(),
       body: const ProfileBody(),
     );
   }

@@ -1,6 +1,11 @@
+import 'dart:js_util';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/dataBase/db_functions.dart';
 import 'package:main_project/main.dart';
+import 'package:main_project/pages/about_page.dart';
+import 'package:main_project/pages/settings_page.dart';
 import 'package:main_project/pages/controls_page.dart';
 import 'package:main_project/pages/lectures_page.dart';
 import 'package:main_project/pages/transcriptor_page.dart';
@@ -14,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 1;
-
+  double turns = 1;
   @override
   void initState() {
     getAllLectures();
@@ -61,15 +66,23 @@ class _HomePageState extends State<HomePage> {
         ),
         titleSpacing: 5,
         actions: [
-          IconButton(
-            onPressed: () {
-              print('pressed');
-            },
-            icon: const Icon(Icons.menu),
-            color: Colors.white,
-          )
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () async {
+                setState(() => turns += 1);
+                await Future.delayed(const Duration(milliseconds: 300));
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: AnimatedRotation(
+                  turns: turns,
+                  duration: const Duration(seconds: 1),
+                  child: const Icon(Icons.menu)),
+              color: Colors.white,
+            );
+          })
         ],
       ),
+      endDrawer: const NavDrawer(),
       body: const HomeScreen(),
     );
   }
@@ -249,5 +262,71 @@ class _HomeScreenState extends State<HomeScreen>
         (route) => false,
       );
     });
+  }
+}
+
+class NavDrawer extends StatelessWidget {
+  const NavDrawer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Colors.black,
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          ListTile(
+            leading: const Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+            title: const Text(
+              "Settings",
+              style: TextStyle(
+                  fontFamily: 'poppins',
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14),
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SettingsPage()));
+            },
+            splashColor: const Color.fromARGB(29, 189, 188, 177),
+            tileColor: const Color.fromARGB(0, 15, 15, 15),
+          ),
+          const Divider(
+            thickness: 0.1,
+            color: Colors.white,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
+            title: const Text(
+              "About",
+              style: TextStyle(
+                  fontFamily: 'poppins',
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14),
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AboutPage()));
+            },
+            splashColor: const Color.fromARGB(29, 189, 188, 177),
+            tileColor: const Color.fromARGB(0, 15, 15, 15),
+          ),
+          const Divider(
+            thickness: 0.1,
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
   }
 }
