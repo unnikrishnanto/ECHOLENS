@@ -1,4 +1,4 @@
-# main_project
+# echolens_v1
 
 A new Flutter project.
 

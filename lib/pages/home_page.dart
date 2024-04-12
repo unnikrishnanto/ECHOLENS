@@ -1,14 +1,11 @@
-import 'dart:js_util';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:main_project/dataBase/db_functions.dart';
-import 'package:main_project/main.dart';
-import 'package:main_project/pages/about_page.dart';
-import 'package:main_project/pages/settings_page.dart';
-import 'package:main_project/pages/controls_page.dart';
-import 'package:main_project/pages/lectures_page.dart';
-import 'package:main_project/pages/transcriptor_page.dart';
+import 'package:echolens_v1/dataBase/db_functions.dart';
+import 'package:echolens_v1/main.dart';
+import 'package:echolens_v1/pages/about_page.dart';
+import 'package:echolens_v1/pages/settings_page.dart';
+import 'package:echolens_v1/pages/controls_page.dart';
+import 'package:echolens_v1/pages/lectures_page.dart';
+import 'package:echolens_v1/pages/transcriptor_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -71,6 +68,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 setState(() => turns += 1);
                 await Future.delayed(const Duration(milliseconds: 300));
+                // ignore: use_build_context_synchronously
                 Scaffold.of(context).openEndDrawer();
               },
               icon: AnimatedRotation(
@@ -228,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen>
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => const ProfilePage()));
+                              builder: (ctx) => const LecturesPage()));
                         },
                         child: const Hero(
                           tag: 'profile-button-icon',
@@ -291,8 +289,8 @@ class NavDrawer extends StatelessWidget {
                   fontSize: 14),
             ),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SettingsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SettingsPage()));
             },
             splashColor: const Color.fromARGB(29, 189, 188, 177),
             tileColor: const Color.fromARGB(0, 15, 15, 15),

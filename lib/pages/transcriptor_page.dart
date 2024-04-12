@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/pages/lectures_page.dart';
-import 'package:main_project/screens/expanded_text.dart';
+import 'package:echolens_v1/pages/home_page.dart';
+import 'package:echolens_v1/pages/lectures_page.dart';
+import 'package:echolens_v1/screens/expanded_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -62,6 +62,7 @@ class _TranscriptorPageState extends State<TranscriptorPage> {
               onPressed: () async {
                 setState(() => turns += 1);
                 await Future.delayed(const Duration(milliseconds: 300));
+                // ignore: use_build_context_synchronously
                 Scaffold.of(context).openEndDrawer();
               },
               icon: AnimatedRotation(
@@ -297,7 +298,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => const ProfilePage()));
+                          builder: (ctx) => const LecturesPage()));
                     },
                     child: const Hero(
                       tag: 'profile-button-icon',
@@ -327,6 +328,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       if (available) {
         st.listen(onResult: ((result) {
           resultText.value = result.recognizedWords;
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           resultText.notifyListeners();
         }));
       }

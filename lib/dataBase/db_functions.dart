@@ -1,7 +1,9 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:main_project/dataBase/lectures_model.dart';
-import 'package:main_project/pages/controls_page.dart';
+import 'package:echolens_v1/dataBase/lectures_model.dart';
+import 'package:echolens_v1/pages/controls_page.dart';
 
 ValueNotifier<List<LecturesModel>> lecturesListNotifier = ValueNotifier([]);
 

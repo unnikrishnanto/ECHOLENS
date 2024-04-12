@@ -1,4 +1,4 @@
-package com.example.main_project
+package com.example.echolens_v1
 
 import io.flutter.embedding.android.FlutterActivity
 

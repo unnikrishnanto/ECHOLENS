@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:main_project/pages/transcriptor_page.dart';
+import 'package:echolens_v1/pages/transcriptor_page.dart';
 
 class ExpandedText extends StatefulWidget {
   const ExpandedText({super.key});

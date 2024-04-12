@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:main_project/dataBase/lectures_model.dart';
-import 'package:main_project/pages/home_page.dart';
+import 'package:echolens_v1/dataBase/lectures_model.dart';
+import 'package:echolens_v1/pages/home_page.dart';
 
 bool isConnected = false;
 Future<void> main() async {

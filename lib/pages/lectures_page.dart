@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:main_project/dataBase/db_functions.dart';
-import 'package:main_project/dataBase/lectures_model.dart';
-import 'package:main_project/main.dart';
-import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/pages/transcriptor_page.dart';
-import 'package:main_project/screens/lecture_view.dart';
+import 'package:echolens_v1/dataBase/db_functions.dart';
+import 'package:echolens_v1/dataBase/lectures_model.dart';
+import 'package:echolens_v1/main.dart';
+import 'package:echolens_v1/pages/home_page.dart';
+import 'package:echolens_v1/pages/transcriptor_page.dart';
+import 'package:echolens_v1/screens/lecture_view.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class LecturesPage extends StatefulWidget {
+  const LecturesPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<LecturesPage> createState() => _LecturesPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _LecturesPageState extends State<LecturesPage> {
   double turns = 1;
   @override
   Widget build(BuildContext context) {
@@ -61,6 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () async {
                 setState(() => turns += 1);
                 await Future.delayed(const Duration(milliseconds: 300));
+                // ignore: use_build_context_synchronously
                 Scaffold.of(context).openEndDrawer();
               },
               icon: AnimatedRotation(

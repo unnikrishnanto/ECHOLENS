@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:main_project/dataBase/db_functions.dart';
-import 'package:main_project/dataBase/lectures_model.dart';
-import 'package:main_project/main.dart';
-import 'package:main_project/pages/home_page.dart';
-import 'package:main_project/pages/lectures_page.dart';
-import 'package:main_project/pages/transcriptor_page.dart';
-import 'package:main_project/screens/expanded_text.dart';
+import 'package:echolens_v1/dataBase/db_functions.dart';
+import 'package:echolens_v1/dataBase/lectures_model.dart';
+import 'package:echolens_v1/main.dart';
+import 'package:echolens_v1/pages/home_page.dart';
+import 'package:echolens_v1/pages/lectures_page.dart';
+import 'package:echolens_v1/pages/transcriptor_page.dart';
+import 'package:echolens_v1/screens/expanded_text.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 String? devicename = '********';
@@ -68,6 +68,7 @@ class _ControlsPageState extends State<ControlsPage> {
               onPressed: () async {
                 setState(() => turns += 1);
                 await Future.delayed(const Duration(milliseconds: 300));
+                // ignore: use_build_context_synchronously
                 Scaffold.of(context).openEndDrawer();
               },
               icon: AnimatedRotation(
@@ -253,7 +254,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                     if (_isStarted) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
-                            "Transcription in progress.save the lecture before starting transcription."),
+                            "Transcription in progress.Stop transcription to save lecture"),
                         duration: Duration(seconds: 3),
                       ));
                     } else {
@@ -382,7 +383,7 @@ class _ControlsBodyState extends State<ControlsBody> {
                 GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
+                          builder: (context) => const LecturesPage()));
                     },
                     child: const Hero(
                       tag: 'profile-button-icon',
@@ -420,6 +421,7 @@ class _ControlsBodyState extends State<ControlsBody> {
       if (available) {
         st.listen(onResult: ((result) {
           resultText.value = result.recognizedWords;
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           resultText.notifyListeners();
         }));
       }
@@ -504,6 +506,7 @@ class LectureDetails extends StatelessWidget {
                     await addLecture(lecture);
                     lectureName.clear();
                     lectureDuration.clear();
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                   }
                 },
