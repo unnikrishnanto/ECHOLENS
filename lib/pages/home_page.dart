@@ -1,11 +1,12 @@
+import 'package:echolens_v1/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:echolens_v1/dataBase/db_functions.dart';
 import 'package:echolens_v1/main.dart';
 import 'package:echolens_v1/pages/about_page.dart';
 import 'package:echolens_v1/pages/settings_page.dart';
-import 'package:echolens_v1/pages/controls_page.dart';
 import 'package:echolens_v1/pages/lectures_page.dart';
 import 'package:echolens_v1/pages/transcriptor_page.dart';
+import "package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -255,9 +256,8 @@ class _HomeScreenState extends State<HomeScreen>
     });
     resultText.value = "Click the Start button to start transcription";
     await Future.delayed(const Duration(milliseconds: 200), () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (ctx) => const ControlsPage()),
-        (route) => false,
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (ctx) =>  SplashScreen()),
       );
     });
   }
@@ -322,6 +322,25 @@ class NavDrawer extends StatelessWidget {
           const Divider(
             thickness: 0.1,
             color: Colors.white,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.bluetooth_audio_rounded,
+              color: Colors.white,
+            ),
+            title: const Text(
+              "Bluetooth Settings",
+              style: TextStyle(
+                  fontFamily: 'poppins',
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14),
+            ),
+            onTap: () {
+              FlutterBluetoothSerial.instance.openSettings();
+            },
+            splashColor: const Color.fromARGB(29, 189, 188, 177),
+            tileColor: const Color.fromARGB(0, 15, 15, 15),
           ),
         ],
       ),
