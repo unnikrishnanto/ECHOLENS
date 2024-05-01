@@ -8,6 +8,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 ValueNotifier<String> resultText =
     ValueNotifier("Click the Start button to start transcription");
+String lastResult = '';
 
 class TranscriptorPage extends StatefulWidget {
   const TranscriptorPage({super.key});
@@ -92,7 +93,7 @@ class TranscriptorBody extends StatefulWidget {
 class _TranscriptorBodyState extends State<TranscriptorBody> {
   bool isTranscripting = false;
   SpeechToText st = SpeechToText();
-
+  bool status = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -225,7 +226,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
                             valueListenable: resultText,
                             builder: (context, value, child) {
                               return Text(
-                                resultText.value,
+                                "$lastResult ${resultText.value}",
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'courier',
@@ -326,17 +327,30 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       });
       var available = await st.initialize();
       if (available) {
-        st.listen(onResult: ((result) {
-          resultText.value = result.recognizedWords;
-          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          resultText.notifyListeners();
-        }));
+        listen2();
       }
     } else {
       setState(() {
         isTranscripting = false;
       });
+      lastResult = '';
+      
       st.stop();
     }
+  }
+
+  void listen2() {
+    st.listen(onResult: ((result) {
+      resultText.value = result.recognizedWords;
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      resultText.notifyListeners();
+      status = result.finalResult;
+      if (status) {
+        lastResult += " ${resultText.value}";
+        setState(() {});
+        resultText.value = '';
+        listen2();
+      }
+    }));
   }
 }

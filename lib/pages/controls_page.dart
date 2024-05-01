@@ -98,6 +98,7 @@ class ControlsBody extends StatefulWidget {
 class _ControlsBodyState extends State<ControlsBody> {
   bool _isStarted = false;
   SpeechToText st = SpeechToText();
+  bool status = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -407,9 +408,27 @@ class _ControlsBodyState extends State<ControlsBody> {
   Future<void> disconnect(BuildContext context) async {
     isConnected = false;
     st.stop();
+    resultText.value = "";
+    lastResult = "";
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (ctx) => const HomePage()),
     );
+  }
+
+  void listen() {
+    st.listen(
+        onResult: ((result) {
+          resultText.value = result.recognizedWords;
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          resultText.notifyListeners();
+          status = result.finalResult;
+          if (status) {
+            lastResult += " ${resultText.value}";
+            resultText.value = '';
+            listen();
+          }
+        }),
+        pauseFor: Duration(hours: 1));
   }
 
   void startTranscribing() async {
@@ -419,18 +438,15 @@ class _ControlsBodyState extends State<ControlsBody> {
       });
       var available = await st.initialize();
       if (available) {
-        st.listen(onResult: ((result) {
-          resultText.value = result.recognizedWords;
-          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          resultText.notifyListeners();
-        }));
+        lastResult = '';
+        listen();
       }
     } else {
       setState(() {
         _isStarted = false;
       });
       if (lectureId >= 0) {
-        await saveLectureInDb(lectureId, resultText.value);
+        await saveLectureInDb(lectureId, lastResult);
         lectureId = -1;
       }
 

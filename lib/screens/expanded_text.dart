@@ -11,6 +11,7 @@ class ExpandedText extends StatefulWidget {
 
 class _ExpandedTextState extends State<ExpandedText> {
   double _fontSize = 16;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +69,7 @@ class _ExpandedTextState extends State<ExpandedText> {
                           valueListenable: resultText,
                           builder: (context, value, child) {
                             return Text(
-                              resultText.value,
+                              "$lastResult ${resultText.value}",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'courier',
