@@ -86,8 +86,20 @@ class _SplashScreen extends State<SplashScreen> {
                 fit: BoxFit.fill)),
         child: Center(
           child: ListTile(
+            contentPadding: EdgeInsets.only(left: 60, right: 60),
             title: ElevatedButton(
-              child: const Text('Connect to paired device to chat'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 59, 101, 255),
+                backgroundColor: Color.fromARGB(255, 98, 208, 205),
+              ),
+              child: const Text(
+                '\nCONNECT TO A PAIRED DEVICE\n',
+                style: TextStyle(
+                  fontFamily: 'poppins',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
               onPressed: () async {
                 final BluetoothDevice? selectedDevice =
                     await Navigator.of(context).push(

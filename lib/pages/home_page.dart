@@ -1,7 +1,6 @@
 import 'package:echolens_v1/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:echolens_v1/dataBase/db_functions.dart';
-import 'package:echolens_v1/main.dart';
 import 'package:echolens_v1/pages/about_page.dart';
 import 'package:echolens_v1/pages/settings_page.dart';
 import 'package:echolens_v1/pages/lectures_page.dart';
@@ -249,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> navigate(BuildContext context) async {
-    isConn = true;
     setState(() {
       _paddingBottom = 100;
       _opacity = 0;

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-
+import 'package:echolens_v1/main.dart';
 import './BluetoothDeviceListEntry.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
@@ -114,6 +114,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
               rssi: _device.rssi,
               enabled: _device.availability == _DeviceAvailability.yes,
               onTap: () {
+                isConn = true;
                 Navigator.of(context).pop(_device.device);
               },
             ))

@@ -84,7 +84,8 @@ class _ControlsPageState extends State<ControlsPage> {
       connection?.dispose();
       connection = null;
     }
-
+    lastResult = "";
+    resultText.value = "Click the Start button to start transcription";
     super.dispose();
   }
 
@@ -500,8 +501,6 @@ class _ControlsPageState extends State<ControlsPage> {
   Future<void> disconnect(BuildContext context) async {
     isConn = false;
     st.stop();
-    resultText.value = "";
-    lastResult = "";
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (ctx) => const HomePage()),
     );
@@ -521,7 +520,7 @@ class _ControlsPageState extends State<ControlsPage> {
             listen();
           }
         }),
-        pauseFor:const Duration(hours: 1));
+        pauseFor: const Duration(hours: 1));
   }
 
   void startTranscribing() async {
