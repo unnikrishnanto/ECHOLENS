@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> navigate(BuildContext context) async {
-    isConnected = true;
+    isConn = true;
     setState(() {
       _paddingBottom = 100;
       _opacity = 0;
@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen>
     resultText.value = "Click the Start button to start transcription";
     await Future.delayed(const Duration(milliseconds: 200), () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (ctx) =>  SplashScreen()),
+        MaterialPageRoute(builder: (ctx) => SplashScreen()),
       );
     });
   }

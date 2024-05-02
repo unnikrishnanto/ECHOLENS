@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:echolens_v1/pages/SelectBondedDevicePage.dart';
+import 'package:echolens_v1/pages/controls_page.dart';
 import 'package:echolens_v1/pages/test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -92,7 +93,8 @@ class _SplashScreen extends State<SplashScreen> {
                     await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const SelectBondedDevicePage(checkAvailability: false);
+                      return const SelectBondedDevicePage(
+                          checkAvailability: false);
                     },
                   ),
                 );
@@ -111,9 +113,7 @@ class _SplashScreen extends State<SplashScreen> {
     );
   }
 
-  Future showPariedDevices() async{
-
-  }
+  Future showPariedDevices() async {}
 
   Future enableBluetooth() async {
     if (_bluetoothState.isEnabled) {
@@ -128,7 +128,7 @@ class _SplashScreen extends State<SplashScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return TestPage(server: server);
+          return ControlsPage(server: server);
         },
       ),
     );

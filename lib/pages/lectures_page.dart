@@ -285,7 +285,7 @@ class ProfileBody extends StatelessWidget {
 // NAvigation bar
           Flexible(
               flex: 20,
-              child: !isConnected //checking weather status is falae
+              child: !isConn //checking weather status is falae
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

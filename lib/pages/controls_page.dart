@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:echolens_v1/dataBase/db_functions.dart';
@@ -8,23 +10,102 @@ import 'package:echolens_v1/pages/lectures_page.dart';
 import 'package:echolens_v1/pages/transcriptor_page.dart';
 import 'package:echolens_v1/screens/expanded_text.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 String? devicename = '********';
 TextEditingController lectureName = TextEditingController();
 TextEditingController lectureDuration = TextEditingController();
 int lectureId = -1;
 double turns = 1;
+bool isConnecting = true;
+bool _isStarted = false;
+SpeechToText st = SpeechToText();
+bool status = false;
 
 class ControlsPage extends StatefulWidget {
-  const ControlsPage({super.key});
+  final BluetoothDevice server;
+
+  ControlsPage({super.key, required this.server});
 
   @override
   State<ControlsPage> createState() => _ControlsPageState();
 }
 
 class _ControlsPageState extends State<ControlsPage> {
+  static const clientID = 0;
+  BluetoothConnection? connection;
+
+  bool get isConnected => (connection?.isConnected ?? false);
+  bool isDisconnecting = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BluetoothConnection.toAddress(widget.server.address).then((_connection) {
+      print('Connected to the device');
+      connection = _connection;
+      sendMessage("connected");
+      setState(() {
+        isConnecting = false;
+        isDisconnecting = false;
+      });
+
+      connection!.input!.listen(_onDataReceived).onDone(() {
+        // Example: Detect which side closed the connection
+        // There should be `isDisconnecting` flag to show are we are (locally)
+        // in middle of disconnecting process, should be set before calling
+        // `dispose`, `finish` or `close`, which all causes to disconnect.
+        // If we except the disconnection, `onDone` should be fired as result.
+        // If we didn't except this (no flag set), it means closing by remote.
+        if (isDisconnecting) {
+          print('Disconnecting locally!');
+        } else {
+          print('Disconnected remotely!');
+        }
+        if (this.mounted) {
+          setState(() {});
+        }
+      });
+    }).catchError((error) {
+      print('Cannot connect, exception occured');
+      print(error);
+    });
+  }
+
+  @override
+  void dispose() {
+    // Avoid memory leak (`setState` after dispose) and disconnect
+    if (isConnected) {
+      isDisconnecting = true;
+      connection?.dispose();
+      connection = null;
+    }
+
+    super.dispose();
+  }
+
+  void _onDataReceived(Uint8List data) {
+    print("INSIDE data recieved");
+    String receivedData = String.fromCharCodes(data);
+    print("Received data: $receivedData");
+  }
+
+  void sendMessage(String text) async {
+    text = text.trim();
+    if (text.isNotEmpty) {
+      try {
+        connection!.output.add(Uint8List.fromList(utf8.encode("$text\r\n")));
+        await connection!.output.allSent;
+      } catch (e) {
+        // Ignore error
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    devicename = widget.server.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -81,103 +162,156 @@ class _ControlsPageState extends State<ControlsPage> {
         ],
       ),
       endDrawer: const NavDrawer(),
-      body: const ControlsBody(),
-    );
-  }
-}
-
-class ControlsBody extends StatefulWidget {
-  const ControlsBody({
-    super.key,
-  });
-
-  @override
-  State<ControlsBody> createState() => _ControlsBodyState();
-}
-
-class _ControlsBodyState extends State<ControlsBody> {
-  bool _isStarted = false;
-  SpeechToText st = SpeechToText();
-  bool status = false;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets\\images\\background.jpeg'),
-        fit: BoxFit.fill,
-      )),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 100, top: 10),
-            child: Text(
-              "Connection Sucecssful ",
-              style: TextStyle(
-                color: Color.fromARGB(252, 255, 255, 255),
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets\\images\\background.jpeg'),
+          fit: BoxFit.fill,
+        )),
+        child: Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(right: 100, top: 10),
+                child: (isConnecting
+                    ? const Text(
+                        'Connecting ',
+                        style: TextStyle(
+                          color: Color.fromARGB(252, 255, 255, 255),
+                          fontFamily: 'poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      )
+                    : isConnected
+                        ? const Text(
+                            'Connection Sucessful',
+                            style: TextStyle(
+                              color: Color.fromARGB(252, 255, 255, 255),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          )
+                        : const Text(
+                            'Disconnected',
+                            style: TextStyle(
+                              color: Color.fromARGB(252, 255, 255, 255),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ))),
+            Padding(
+              padding: const EdgeInsets.only(right: 80, bottom: 20),
+              child: Text(
+                "with $devicename",
+                style: const TextStyle(
+                  color: Color.fromARGB(252, 255, 255, 255),
+                  fontFamily: 'poppins',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 80, bottom: 20),
-            child: Text(
-              "with $devicename",
-              style: const TextStyle(
-                color: Color.fromARGB(252, 255, 255, 255),
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          Expanded(
-            child: GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 40),
-              crossAxisSpacing: 20,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    startTranscribing();
-                  },
-                  child: Container(
+            Expanded(
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 40),
+                crossAxisSpacing: 20,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (isConnected) {
+                        startTranscribing();
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 25, right: 15, bottom: 20, top: 20),
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets\\images\\controls_background.jpeg'),
+                              fit: BoxFit.contain),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(top: 9, right: 22),
+                              child: Column(
+                                children: [
+                                  _isStarted
+                                      ? const Text(
+                                          "STOP",
+                                          style: TextStyle(
+                                              fontFamily: 'cooper',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 16),
+                                        )
+                                      : const Text(
+                                          "START",
+                                          style: TextStyle(
+                                              fontFamily: 'cooper',
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 16),
+                                        ),
+                                  const Text(
+                                    'Transcribe',
+                                    style: TextStyle(
+                                      fontFamily: 'courier',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30, top: 12),
+                            child: _isStarted
+                                ? const Icon(
+                                    Icons.stop_circle,
+                                    size: 38,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.play_circle_fill,
+                                    size: 38,
+                                    color: Colors.white,
+                                  ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
                     margin: const EdgeInsets.only(
-                        left: 25, right: 15, bottom: 20, top: 20),
+                        left: 15, right: 25, bottom: 20, top: 20),
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
                                 'assets\\images\\controls_background.jpeg'),
                             fit: BoxFit.contain),
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.only(top: 9, right: 22),
+                            padding: EdgeInsets.only(top: 9, right: 5),
                             child: Column(
                               children: [
-                                _isStarted
-                                    ? const Text(
-                                        "STOP",
-                                        style: TextStyle(
-                                            fontFamily: 'cooper',
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 16),
-                                      )
-                                    : const Text(
-                                        "START",
-                                        style: TextStyle(
-                                            fontFamily: 'cooper',
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 16),
-                                      ),
-                                const Text(
-                                  'Transcribe',
+                                Text(
+                                  "BATTERY",
+                                  style: TextStyle(
+                                      fontFamily: 'cooper',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 16),
+                                ),
+                                Text(
+                                  'Percentage    ',
                                   style: TextStyle(
                                     fontFamily: 'courier',
                                     color: Colors.white,
@@ -188,110 +322,9 @@ class _ControlsBodyState extends State<ControlsBody> {
                               ],
                             )),
                         Padding(
-                          padding: const EdgeInsets.only(left: 30, top: 12),
-                          child: _isStarted
-                              ? const Icon(
-                                  Icons.stop_circle,
-                                  size: 38,
-                                  color: Colors.white,
-                                )
-                              : const Icon(
-                                  Icons.play_circle_fill,
-                                  size: 38,
-                                  color: Colors.white,
-                                ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 15, right: 25, bottom: 20, top: 20),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets\\images\\controls_background.jpeg'),
-                          fit: BoxFit.contain),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: const Column(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 9, right: 5),
-                          child: Column(
-                            children: [
-                              Text(
-                                "BATTERY",
-                                style: TextStyle(
-                                    fontFamily: 'cooper',
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                'Percentage    ',
-                                style: TextStyle(
-                                  fontFamily: 'courier',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 8,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(left: 40, top: 12),
-                        child: Icon(
-                          Icons.battery_5_bar_outlined,
-                          size: 38,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (_isStarted) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                            "Transcription in progress.Stop transcription to save lecture"),
-                        duration: Duration(seconds: 3),
-                      ));
-                    } else {
-                      lectureDuration.text = '2';
-                      showDialog(
-                          context: context,
-                          builder: (context) => const LectureDetails());
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 25, right: 15, bottom: 20, top: 20),
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'assets\\images\\controls_background.jpeg'),
-                            fit: BoxFit.contain),
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: const Column(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(top: 9),
-                            child: Text(
-                              "SAVE\nLECTURE",
-                              style: TextStyle(
-                                  fontFamily: 'cooper',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 14),
-                            )),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 40,
-                          ),
+                          padding: EdgeInsets.only(left: 40, top: 12),
                           child: Icon(
-                            Icons.post_add_outlined,
+                            Icons.battery_5_bar_outlined,
                             size: 38,
                             color: Colors.white,
                           ),
@@ -299,114 +332,170 @@ class _ControlsBodyState extends State<ControlsBody> {
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 15, right: 25, bottom: 20, top: 20),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets\\images\\controls_background.jpeg'),
-                          fit: BoxFit.contain),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: const Column(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 9),
-                          child: Text(
-                            "SIGNAL\nSTRENGTH",
-                            style: TextStyle(
-                                fontFamily: 'cooper',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 13),
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(left: 40, top: 5),
-                        child: Icon(
-                          Icons.signal_cellular_alt,
-                          size: 38,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      if (_isStarted) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              "Transcription in progress.Stop transcription to save lecture"),
+                          duration: Duration(seconds: 3),
+                        ));
+                      } else {
+                        lectureDuration.text = '2';
+                        showDialog(
+                            context: context,
+                            builder: (context) => const LectureDetails());
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 25, right: 15, bottom: 20, top: 20),
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets\\images\\controls_background.jpeg'),
+                              fit: BoxFit.contain),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: const Column(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.only(top: 9),
+                              child: Text(
+                                "SAVE\nLECTURE",
+                                style: TextStyle(
+                                    fontFamily: 'cooper',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 14),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 40,
+                            ),
+                            child: Icon(
+                              Icons.post_add_outlined,
+                              size: 38,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () => disconnect(context),
-            child: const Text(
-              "Tap to disconnect ",
-              style: TextStyle(
-                color: Color.fromARGB(252, 255, 255, 255),
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+                  Container(
+                    margin: const EdgeInsets.only(
+                        left: 15, right: 25, bottom: 20, top: 20),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets\\images\\controls_background.jpeg'),
+                            fit: BoxFit.contain),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(top: 9),
+                            child: Text(
+                              "SIGNAL\nSTRENGTH",
+                              style: TextStyle(
+                                  fontFamily: 'cooper',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 13),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 40, top: 5),
+                            child: isConnected
+                                ? const Icon(
+                                    Icons.signal_cellular_alt,
+                                    size: 38,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  )
+                                : const Icon(
+                                    Icons.signal_cellular_alt_1_bar_outlined,
+                                    size: 38,
+                                    color: Color.fromARGB(80, 255, 255, 255),
+                                  ))
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(
-            width: 10,
-            height: 10,
-          ),
-          GestureDetector(
-              onTap: () {
-                disconnect(context);
-              },
-              child: const Icon(
-                Icons.link_off_outlined,
-                color: Colors.white,
-                size: 40,
-              )),
-          Padding(
-            padding: const EdgeInsets.only(top: 80, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => const ExpandedText()));
-                    },
-                    child: const Hero(
-                      tag: 'transcriptor-button-icon',
-                      child: CircleAvatar(
-                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                          radius: 24,
-                          child: Icon(
-                            Icons.phone_iphone_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          )),
-                    )),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LecturesPage()));
-                    },
-                    child: const Hero(
-                      tag: 'profile-button-icon',
-                      child: CircleAvatar(
-                          backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                          radius: 24,
-                          child: Icon(
-                            Icons.menu_book,
-                            size: 40,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          )),
-                    )),
-              ],
+            GestureDetector(
+              onTap: () => disconnect(context),
+              child: const Text(
+                "Tap to disconnect ",
+                style: TextStyle(
+                  color: Color.fromARGB(252, 255, 255, 255),
+                  fontFamily: 'poppins',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
-          )
-        ],
+            const SizedBox(
+              width: 10,
+              height: 10,
+            ),
+            GestureDetector(
+                onTap: () {
+                  disconnect(context);
+                },
+                child: const Icon(
+                  Icons.link_off_outlined,
+                  color: Colors.white,
+                  size: 40,
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 80, bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => const ExpandedText()));
+                      },
+                      child: const Hero(
+                        tag: 'transcriptor-button-icon',
+                        child: CircleAvatar(
+                            backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                            radius: 24,
+                            child: Icon(
+                              Icons.phone_iphone_outlined,
+                              size: 40,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            )),
+                      )),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LecturesPage()));
+                      },
+                      child: const Hero(
+                        tag: 'profile-button-icon',
+                        child: CircleAvatar(
+                            backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                            radius: 24,
+                            child: Icon(
+                              Icons.menu_book,
+                              size: 40,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            )),
+                      )),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
   Future<void> disconnect(BuildContext context) async {
-    isConnected = false;
+    isConn = false;
     st.stop();
     resultText.value = "";
     lastResult = "";
@@ -424,6 +513,7 @@ class _ControlsBodyState extends State<ControlsBody> {
           status = result.finalResult;
           if (status) {
             lastResult += " ${resultText.value}";
+            sendMessage(resultText.value);
             resultText.value = '';
             listen();
           }

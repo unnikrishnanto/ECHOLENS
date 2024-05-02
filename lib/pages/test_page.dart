@@ -38,8 +38,7 @@ class _TestPage extends State<TestPage> {
   @override
   void initState() {
     super.initState();
-    
-  
+
     BluetoothConnection.toAddress(widget.server.address).then((_connection) {
       print('Connected to the device');
       connection = _connection;
@@ -81,9 +80,10 @@ class _TestPage extends State<TestPage> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-       _sendMessage("connected");
+    _sendMessage("connected");
     final serverName = widget.server.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
@@ -95,7 +95,6 @@ class _TestPage extends State<TestPage> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-       
             Row(
               children: <Widget>[
                 Flexible(
@@ -132,25 +131,23 @@ class _TestPage extends State<TestPage> {
     );
   }
 
-void _onDataReceived(Uint8List data) {
-  print("INSIDE data recieved");
+  void _onDataReceived(Uint8List data) {
+    print("INSIDE data recieved");
     String receivedData = String.fromCharCodes(data);
     print("Received data: $receivedData");
-}
+  }
 
+  void _sendMessage(String text) async {
+    text = text.trim();
+    textEditingController.clear();
 
-
-void _sendMessage(String text) async {
-  text = text.trim();
-  textEditingController.clear();
-
-  if (text.length > 0) {
-    try {
-      connection!.output.add(Uint8List.fromList(utf8.encode(text + "\r\n")));
-      await connection!.output.allSent;
-    } catch (e) {
-      // Ignore error
+    if (text.length > 0) {
+      try {
+        connection!.output.add(Uint8List.fromList(utf8.encode(text + "\r\n")));
+        await connection!.output.allSent;
+      } catch (e) {
+        // Ignore error
+      }
     }
   }
-}
 }
