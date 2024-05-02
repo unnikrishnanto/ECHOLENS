@@ -125,7 +125,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
           _isDiscovering
               ? FittedBox(
                   child: Container(
-                    margin: new EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.all(16.0),
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Colors.white,

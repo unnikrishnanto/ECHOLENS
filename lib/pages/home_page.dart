@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> navigate(BuildContext context) async {
-    isConnected = true;
+    isConn = true;
     setState(() {
       _paddingBottom = 100;
       _opacity = 0;

@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:echolens_v1/dataBase/lectures_model.dart';
 import 'package:echolens_v1/pages/home_page.dart';
 
-bool isConnected = false;
+bool isConn = false;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
