@@ -48,6 +48,7 @@ class _ControlsPageState extends State<ControlsPage> {
     BluetoothConnection.toAddress(widget.server.address).then((_connection) {
       print('Connected to the device');
       connection = _connection;
+      sendMessage("connected");
       setState(() {
         isConnecting = false;
         isDisconnecting = false;
@@ -107,7 +108,6 @@ class _ControlsPageState extends State<ControlsPage> {
 
   @override
   Widget build(BuildContext context) {
-    sendMessage("connected");
     devicename = widget.server.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
@@ -225,7 +225,7 @@ class _ControlsPageState extends State<ControlsPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if(isConnected){
+                      if (isConnected) {
                         startTranscribing();
                       }
                     },
@@ -395,9 +395,9 @@ class _ControlsPageState extends State<ControlsPage> {
                                 'assets\\images\\controls_background.jpeg'),
                             fit: BoxFit.contain),
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Padding(
+                        const Padding(
                             padding: EdgeInsets.only(top: 9),
                             child: Text(
                               "SIGNAL\nSTRENGTH",
@@ -408,13 +408,18 @@ class _ControlsPageState extends State<ControlsPage> {
                                   fontSize: 13),
                             )),
                         Padding(
-                          padding: EdgeInsets.only(left: 40, top: 5),
-                          child: Icon(
-                            Icons.signal_cellular_alt,
-                            size: 38,
-                            color: Colors.white,
-                          ),
-                        )
+                            padding: const EdgeInsets.only(left: 40, top: 5),
+                            child: isConnected
+                                ? const Icon(
+                                    Icons.signal_cellular_alt,
+                                    size: 38,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.signal_cellular_alt_1_bar_outlined,
+                                    size: 38,
+                                    color: Color.fromARGB(62, 255, 255, 255),
+                                  ))
                       ],
                     ),
                   ),
@@ -516,7 +521,7 @@ class _ControlsPageState extends State<ControlsPage> {
             listen();
           }
         }),
-        pauseFor: Duration(hours: 1));
+        pauseFor:const Duration(hours: 1));
   }
 
   void startTranscribing() async {
