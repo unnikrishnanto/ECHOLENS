@@ -333,7 +333,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       setState(() {
         isTranscripting = false;
       });
-      lastResult = '';
+      
 
       st.stop();
     }

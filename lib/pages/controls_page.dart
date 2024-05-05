@@ -86,6 +86,7 @@ class _ControlsPageState extends State<ControlsPage> {
     }
     lastResult = "";
     resultText.value = "Click the Start button to start transcription";
+    _isStarted = false;
     super.dispose();
   }
 
@@ -99,7 +100,7 @@ class _ControlsPageState extends State<ControlsPage> {
     text = text.trim();
     if (text.isNotEmpty) {
       try {
-        connection!.output.add(Uint8List.fromList(utf8.encode("$text\r\n")));
+        connection!.output.add(Uint8List.fromList(utf8.encode("$text\r")));
         await connection!.output.allSent;
       } catch (e) {
         // Ignore error
@@ -512,6 +513,7 @@ class _ControlsPageState extends State<ControlsPage> {
           resultText.value = result.recognizedWords;
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           resultText.notifyListeners();
+          // sendMessage(result.recognizedWords);
           status = result.finalResult;
           if (status) {
             lastResult += " ${resultText.value}";
