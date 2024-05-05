@@ -34,7 +34,7 @@ class _SplashScreen extends State<SplashScreen> {
       if ((await FlutterBluetoothSerial.instance.isEnabled) ?? false) {
         return false;
       }
-      await Future.delayed(Duration(milliseconds: 0xDD));
+      await Future.delayed(const Duration(milliseconds: 0xDD));
       return true;
     }).then((_) {
       // Update the address field
@@ -85,11 +85,11 @@ class _SplashScreen extends State<SplashScreen> {
                 fit: BoxFit.fill)),
         child: Center(
           child: ListTile(
-            contentPadding: EdgeInsets.only(left: 60, right: 60),
+            contentPadding:const EdgeInsets.only(left: 60, right: 60),
             title: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Color.fromARGB(255, 59, 101, 255),
-                backgroundColor: Color.fromARGB(255, 98, 208, 205),
+                foregroundColor:const Color.fromARGB(255, 59, 101, 255),
+                backgroundColor:const Color.fromARGB(255, 98, 208, 205),
               ),
               child: const Text(
                 '\nCONNECT TO A PAIRED DEVICE\n',

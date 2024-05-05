@@ -323,6 +323,7 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
   void startTranscription() async {
     if (!isTranscripting) {
       setState(() {
+        lastResult = '';
         isTranscripting = true;
       });
       var available = await st.initialize();
@@ -333,7 +334,6 @@ class _TranscriptorBodyState extends State<TranscriptorBody> {
       setState(() {
         isTranscripting = false;
       });
-      
 
       st.stop();
     }
