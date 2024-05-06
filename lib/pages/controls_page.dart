@@ -17,7 +17,6 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 String? devicename = '********';
 TextEditingController lectureName = TextEditingController();
-TextEditingController lectureDuration = TextEditingController();
 int lectureId = -1;
 double turns = 1;
 bool isConnecting = true;
@@ -347,7 +346,6 @@ class _ControlsPageState extends State<ControlsPage> {
                           duration: Duration(seconds: 3),
                         ));
                       } else {
-                        lectureDuration.text = '2';
                         showDialog(
                             context: context,
                             builder: (context) => const LectureDetails());
@@ -588,34 +586,17 @@ class LectureDetails extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 2, color: Color.fromARGB(225, 20, 202, 129)))),
             ),
-            TextField(
-              controller: lectureDuration,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                  hintText: "Lecture Duration (Default 2 hrs)",
-                  hintStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254))),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      borderSide: BorderSide(
-                          width: 2, color: Color.fromARGB(225, 20, 202, 129)))),
-            ),
+
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
                     backgroundColor: const Color.fromARGB(255, 7, 143, 170)),
                 onPressed: () async {
                   if (lectureName.text.isNotEmpty) {
-                    final duration = int.tryParse(lectureDuration.text);
-                    print("${duration.runtimeType} : $duration");
                     final lecture =
                         LecturesModel(lectureName: lectureName.value.text);
                     await addLecture(lecture);
                     lectureName.clear();
-                    lectureDuration.clear();
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                   }
