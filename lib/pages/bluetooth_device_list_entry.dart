@@ -11,7 +11,7 @@ class BluetoothDeviceListEntry extends ListTile {
     super.enabled,
   }) : super(
           leading:
-              Icon(Icons.devices), // @TODO . !BluetoothClass! class aware icon
+              const Icon(Icons.devices), 
           title: Text(device.name ?? ""),
           subtitle: Text(device.address.toString()),
           trailing: Row(
@@ -19,24 +19,24 @@ class BluetoothDeviceListEntry extends ListTile {
             children: <Widget>[
               rssi != null
                   ? Container(
-                      margin: new EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.all(8.0),
                       child: DefaultTextStyle(
                         style: _computeTextStyle(rssi),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(rssi.toString()),
-                            Text('dBm'),
+                            const Text('dBm'),
                           ],
                         ),
                       ),
                     )
                   : Container(width: 0, height: 0),
               device.isConnected
-                  ? Icon(Icons.import_export)
+                  ? const Icon(Icons.import_export)
                   : Container(width: 0, height: 0),
               device.isBonded
-                  ? Icon(Icons.link)
+                  ? const Icon(Icons.link)
                   : Container(width: 0, height: 0),
             ],
           ),
@@ -65,8 +65,7 @@ class BluetoothDeviceListEntry extends ListTile {
           color: Color.lerp(
               Colors.deepOrangeAccent, Colors.redAccent, -(rssi + 75) / 10));
     } else {
-      /*code symmetry*/
-      return TextStyle(color: Colors.redAccent);
+      return const TextStyle(color: Colors.redAccent);
     }
   }
 }

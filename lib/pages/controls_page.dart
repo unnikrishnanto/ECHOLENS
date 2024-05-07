@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
+// ignore_for_file: unused_field
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -12,7 +12,6 @@ import 'package:echolens_v1/pages/lectures_page.dart';
 import 'package:echolens_v1/pages/transcriptor_page.dart';
 import 'package:echolens_v1/screens/expanded_text.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 String? devicename = '********';

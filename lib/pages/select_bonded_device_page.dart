@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:echolens_v1/main.dart';
-import './BluetoothDeviceListEntry.dart';
+import 'bluetooth_device_list_entry.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
   /// If true, on page start there is performed discovery upon the bonded devices.
@@ -16,6 +16,7 @@ class SelectBondedDevicePage extends StatefulWidget {
 }
 
 enum _DeviceAvailability {
+  // ignore: unused_field
   no,
   maybe,
   yes,

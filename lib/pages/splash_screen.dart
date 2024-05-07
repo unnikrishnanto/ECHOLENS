@@ -1,6 +1,8 @@
+// ignore_for_file: unused_field
+
 import 'dart:async';
 
-import 'package:echolens_v1/pages/SelectBondedDevicePage.dart';
+import 'package:echolens_v1/pages/select_bonded_device_page.dart';
 import 'package:echolens_v1/pages/controls_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
