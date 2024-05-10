@@ -16,8 +16,6 @@ class SelectBondedDevicePage extends StatefulWidget {
 }
 
 enum _DeviceAvailability {
-  // ignore: unused_field
-  no,
   maybe,
   yes,
 }
@@ -128,7 +126,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
               ? FittedBox(
                   child: Container(
                     margin: const EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(
+                    child:const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Colors.white,
                       ),

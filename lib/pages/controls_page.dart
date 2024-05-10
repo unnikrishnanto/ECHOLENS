@@ -1,4 +1,3 @@
-// ignore_for_file: unused_field
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -509,7 +508,7 @@ class _ControlsPageState extends State<ControlsPage> {
           resultText.value = result.recognizedWords;
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           resultText.notifyListeners();
-          // sendMessage(result.recognizedWords);
+          //sendMessage(result.recognizedWords);
           status = result.finalResult;
           if (status) {
             lastResult += " ${resultText.value}";

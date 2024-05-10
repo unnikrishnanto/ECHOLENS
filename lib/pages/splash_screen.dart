@@ -1,4 +1,3 @@
-// ignore_for_file: unused_field
 
 import 'dart:async';
 
@@ -14,9 +13,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreen extends State<SplashScreen> {
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
-
-  String _address = "...";
-  String _name = "...";
 
 
   @override
@@ -36,29 +32,13 @@ class _SplashScreen extends State<SplashScreen> {
       }
       await Future.delayed(const Duration(milliseconds: 0xDD));
       return true;
-    }).then((_) {
-      // Update the address field
-      FlutterBluetoothSerial.instance.address.then((address) {
-        setState(() {
-          _address = address!;
-        });
-      });
-    });
-
-    FlutterBluetoothSerial.instance.name.then((name) {
-      setState(() {
-        _name = name!;
-      });
     });
 
     // Listen for futher state changes
     FlutterBluetoothSerial.instance
         .onStateChanged()
         .listen((BluetoothState state) {
-      setState(() {
         _bluetoothState = state;
-
-      });
     });
 
     enableBluetooth();
@@ -72,7 +52,6 @@ class _SplashScreen extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // rotate();
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
