@@ -33,7 +33,6 @@ class ControlsPage extends StatefulWidget {
 }
 
 class _ControlsPageState extends State<ControlsPage> {
-  static const clientID = 0;
   BluetoothConnection? connection;
 
   bool get isConnected => (connection?.isConnected ?? false);

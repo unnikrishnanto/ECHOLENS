@@ -18,8 +18,6 @@ class _SplashScreen extends State<SplashScreen> {
   String _address = "...";
   String _name = "...";
 
-  Timer? _discoverableTimeoutTimer;
-  int _discoverableTimeoutSecondsLeft = 0;
 
   @override
   void initState() {
@@ -60,9 +58,6 @@ class _SplashScreen extends State<SplashScreen> {
       setState(() {
         _bluetoothState = state;
 
-        // Discoverable mode is disabled when Bluetooth gets disabled
-        _discoverableTimeoutTimer = null;
-        _discoverableTimeoutSecondsLeft = 0;
       });
     });
 
@@ -72,7 +67,6 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void dispose() {
     FlutterBluetoothSerial.instance.setPairingRequestHandler(null);
-    _discoverableTimeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -114,7 +108,7 @@ class _SplashScreen extends State<SplashScreen> {
 
                 if (selectedDevice != null) {
                   print('Connect -> selected ' + selectedDevice.address);
-                  _startChat(context, selectedDevice);
+                  _connect(context, selectedDevice);
                 } else {
                   print('Connect -> no device selected');
                 }
@@ -137,7 +131,7 @@ class _SplashScreen extends State<SplashScreen> {
     }
   }
 
-  void _startChat(BuildContext context, BluetoothDevice server) {
+  void _connect(BuildContext context, BluetoothDevice server) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
