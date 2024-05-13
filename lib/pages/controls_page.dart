@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -83,6 +82,7 @@ class _ControlsPageState extends State<ControlsPage> {
     lastResult = "";
     resultText.value = "Click the Start button to start transcription";
     _isStarted = false;
+    isConn = false;
     super.dispose();
   }
 
@@ -583,7 +583,6 @@ class LectureDetails extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 2, color: Color.fromARGB(225, 20, 202, 129)))),
             ),
-
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
